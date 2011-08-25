@@ -11,19 +11,20 @@ except ImportError:
 
 def index(request):
     return render_to_response('index.html', {
-            
+
         }, context_instance=RequestContext(request)
     )
-    
+
 
 def importvideo(request):
     if request.method == "POST":
         video_url = request.POST.get("url")
+
     return render_to_response('import.html', {
-            
+
         }, context_instance=RequestContext(request)
     )
-    
+
 
 
 

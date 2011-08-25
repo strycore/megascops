@@ -1,0 +1,45 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ADMINS	./settings.py	/^ADMINS = ($/;"	v
+ADMIN_MEDIA_PREFIX	./settings.py	/^ADMIN_MEDIA_PREFIX = '\/static\/admin\/'$/;"	v
+DATABASES	./settings.py	/^DATABASES = {$/;"	v
+DATA_PATH	./video/gearman_jobs.py	/^DATA_PATH = "\/home\/strider\/Videos\/megascops"$/;"	v
+DEBUG	./settings.py	/^DEBUG = True$/;"	v
+GEARMAN_SERVERS	./settings.py	/^GEARMAN_SERVERS = ['127.0.0.1:4730']$/;"	v
+INSTALLED_APPS	./settings.py	/^INSTALLED_APPS = ($/;"	v
+LANGUAGE_CODE	./settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	v
+LOGGING	./settings.py	/^LOGGING = {$/;"	v
+MANAGERS	./settings.py	/^MANAGERS = ADMINS$/;"	v
+MEDIA_ROOT	./settings.py	/^MEDIA_ROOT = ''$/;"	v
+MEDIA_URL	./settings.py	/^MEDIA_URL = ''$/;"	v
+MIDDLEWARE_CLASSES	./settings.py	/^MIDDLEWARE_CLASSES = ($/;"	v
+PROJECT_PATH	./settings.py	/^PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))$/;"	v
+ROOT_URLCONF	./settings.py	/^ROOT_URLCONF = 'megascops.urls'$/;"	v
+SITE_ID	./settings.py	/^SITE_ID = 1$/;"	v
+STATICFILES_DIRS	./settings.py	/^STATICFILES_DIRS = ($/;"	v
+STATICFILES_FINDERS	./settings.py	/^STATICFILES_FINDERS = ($/;"	v
+STATIC_ROOT	./settings.py	/^STATIC_ROOT = ''$/;"	v
+STATIC_URL	./settings.py	/^STATIC_URL = '\/static\/'$/;"	v
+SimpleTest	./video/tests.py	/^class SimpleTest(TestCase):$/;"	c
+TEMPLATE_DEBUG	./settings.py	/^TEMPLATE_DEBUG = DEBUG$/;"	v
+TEMPLATE_DIRS	./settings.py	/^TEMPLATE_DIRS = ($/;"	v
+TEMPLATE_LOADERS	./settings.py	/^TEMPLATE_LOADERS = ($/;"	v
+TIME_ZONE	./settings.py	/^TIME_ZONE = 'Europe\/Paris'$/;"	v
+USE_I18N	./settings.py	/^USE_I18N = True$/;"	v
+USE_L10N	./settings.py	/^USE_L10N = True$/;"	v
+Video	./video/models.py	/^class Video(models.Model):$/;"	c
+content_type	./video/models.py	/^    content_type = models.CharField()$/;"	v	class:Video
+fetch_video	./video/gearman_jobs.py	/^def fetch_video(url):$/;"	f
+file_suffix	./video/models.py	/^    file_suffix = models.CharField()$/;"	v	class:Video
+host	./video/models.py	/^    host = models.CharField()$/;"	v	class:Video
+importvideo	./video/views.py	/^def importvideo(request):$/;"	f
+index	./video/views.py	/^def index(request):$/;"	f
+page_title	./video/models.py	/^    page_title = models.CharField()$/;"	v	class:Video
+page_url	./video/models.py	/^    page_url = models.CharField()$/;"	v	class:Video
+test_basic_addition	./video/tests.py	/^    def test_basic_addition(self):$/;"	m	class:SimpleTest
+url	./video/models.py	/^    url = models.CharField()$/;"	v	class:Video
+urlpatterns	./urls.py	/^urlpatterns = patterns('',$/;"	v

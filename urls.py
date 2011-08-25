@@ -7,7 +7,8 @@ from django.conf.urls.defaults import patterns, include, url
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'megascops.video.views.index'),
-    url(r'^import$', 'megascops.video.views.importvideo', name='importvideo'),
+    url(r'^accounts/', include('registration.urls')),
+    url(r'^import$', 'megascops.video.views.importvideo'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
