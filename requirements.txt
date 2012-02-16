@@ -1,0 +1,5 @@
+django
+cython
+-e git://github.com/fwenzel/django-gearman.git#egg=django-gearman
+-e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+-e git://github.com/metal3d/python-libquvi.git#egg=quvi

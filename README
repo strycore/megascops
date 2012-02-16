@@ -8,12 +8,13 @@ Megascops
    pip install django
  * gearman
    sudo apt-get install gearman
- * django-gearman 
+ * django-gearman
    pip install -e git://github.com/fwenzel/django-gearman.git#egg=django-gearman
  * django-registration
    pip install django-registration
  * quvi
    sudo apt-get build-dep libquvi
+   sudo apt-get install libtool gengetopt
    git clone git://repo.or.cz/quvi.git
    cd quvi
    ./autogen.sh
