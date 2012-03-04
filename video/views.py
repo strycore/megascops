@@ -8,10 +8,8 @@ from django_gearman import GearmanClient, Task
 from models import Video
 
 def index(request):
-    return render_to_response('index.html', {
-
-        }, context_instance=RequestContext(request)
-    )
+    return render_to_response('index.html', { }, 
+            context_instance=RequestContext(request))
 
 
 def importvideo(request):
@@ -25,13 +23,15 @@ def importvideo(request):
         video = Video.objects.get(page_url=video_url)
     except ObjectDoesNotExist:
         state = "DOWNLOAD_INIT"
-        client = GearmanClient()
         video = Video()
+        video.page_url = video_url
         video.state = state
         video.save()
-        client.dispatch_background_task('video.fetch_video', video)
+        client = GearmanClient()
+        client.dispatch_background_task('megascops.get_video_job', video.id)
     else:
-        status = video.status
+        state = video.state
+
     return render_to_response('import.html',
                               {'state': state},
                               context_instance=RequestContext(request))
