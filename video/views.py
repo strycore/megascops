@@ -1,13 +1,11 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from gearman import GearmanClient
-
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
+from django_gearman import GearmanClient, Task
+from models import Video
 
 def index(request):
     return render_to_response('index.html', {
@@ -19,12 +17,21 @@ def index(request):
 def importvideo(request):
     if request.method == "POST":
         video_url = request.POST.get("url")
+    else:
+        raise Http404
 
-    return render_to_response('import.html', {
-
-        }, context_instance=RequestContext(request)
-    )
-
-
-
-
+    # Check if the video has already been downloaded
+    try:
+        video = Video.objects.get(page_url=video_url)
+    except ObjectDoesNotExist:
+        state = "DOWNLOAD_INIT"
+        client = GearmanClient()
+        video = Video()
+        video.state = state
+        video.save()
+        client.dispatch_background_task('video.fetch_video', video)
+    else:
+        status = video.status
+    return render_to_response('import.html',
+                              {'state': state},
+                              context_instance=RequestContext(request))

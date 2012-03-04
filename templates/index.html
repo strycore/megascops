@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<form class="import-form" action="/import" method="get">
+<form class="import-form" action="/import" method="post">
+    {% csrf_token %}
     <label>Enter the url of the video you want to save</label>
     <input type="text" name="url" placeholder="URL of the video" />
     <input type="submit" value="Save!" />

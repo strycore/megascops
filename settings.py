@@ -1,5 +1,3 @@
-# Django settings for megascops project.
-
 import os
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -15,12 +13,12 @@ DEFAULT_FROM_EMAIL = 'admin@megascops.org'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_PATH, 'db/megascops.db'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(PROJECT_PATH, 'megascops.db'),
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -81,11 +79,9 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,9 +95,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'megascops.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_PATH, 'templates'),
 )
 
@@ -124,14 +117,13 @@ INSTALLED_APPS = (
     'registration',
     'megascops.video',
     'django_gearman',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 2
 GEARMAN_SERVERS = ['127.0.0.1:4730']
+GEARMAN_JOB_NAME = "megascops.%(job)s"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

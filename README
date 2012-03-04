@@ -4,14 +4,15 @@ Megascops
  Dependencies
  ------------
 
- * django
-   pip install django
+ Install python dependencies in a virtualenv using the bootstrap.py script
+ 
+ There are some other non-python dependencies which are required, 
+ these must be installed before running the bootstrap script.
+
  * gearman
    sudo apt-get install gearman
  * django-gearman
    pip install -e git://github.com/fwenzel/django-gearman.git#egg=django-gearman
- * django-registration
-   pip install django-registration
  * quvi
    sudo apt-get build-dep libquvi
    sudo apt-get install libtool gengetopt

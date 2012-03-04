@@ -1,0 +1,5 @@
+#/bin/bash
+
+rm -f megascops.db
+./manage.py syncdb --noinput
+
