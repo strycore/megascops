@@ -8,7 +8,7 @@ from django_gearman import GearmanClient, Task
 from models import Video
 
 def index(request):
-    return render_to_response('index.html', { }, 
+    return render_to_response('index.html', { },
             context_instance=RequestContext(request))
 
 
@@ -33,5 +33,5 @@ def importvideo(request):
         state = video.state
 
     return render_to_response('import.html',
-                              {'state': state},
+                              {'video': video},
                               context_instance=RequestContext(request))
