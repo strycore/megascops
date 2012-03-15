@@ -1,0 +1,4 @@
+You need to activate your account before login in, you can do so by clicking 
+the link below.
+
+http://localhost:8000/accounts/activate/{{ activation_key }}

@@ -12,8 +12,6 @@ from megascops.video.models import Video
 DATA_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                          "../../videos/"))
 print "Saving videos in %s" % DATA_PATH
-global VIDEO_ID
-VIDEO_ID = 999
 
 
 def get_video_info(url):
@@ -51,13 +49,12 @@ def get_video_job(video_id):
     megascops.models.Video
     """
     try:
-        VIDEO_ID = video_id
-        print "Starting download of video %s" % VIDEO_ID
+        print "Starting download of video %s" % video_id
         video = Video.objects.get(pk=video_id)
         video.state = "FETCHING_INFO"
         video.save()
         vid_info = get_video_info(video.page_url)
-        page_title = vid_info['page_title'] if vid_info['page_title'] \ 
+        page_title = vid_info['page_title'] if vid_info['page_title']\
                      else "%s video %s" % (vid_info['host'],
                                            str(datetime.now()))
         video.page_title = 'page_title'

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-  <form action="" class="small-form">
-    {{ form }}
-    <hr/>
-    <input type="submit" name="login" value="Log in">
-  </form>
+<div class="form-container">
+    <form method="post" action="" class="small-form">
+        {% csrf_token %}
+        {{ form }}
+        <hr/>
+        <input type="submit" name="login" value="Log in">
+    </form>
+</div>
 {% endblock %}

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="" class="small-form">
-    {{ form }}
-    <hr />
-    <input type="submit" value="Register" />
-</form>
+<div class="form-container">
+    <form action="" method="post" class="small-form">
+        {% csrf_token %}
+        {{ form }}
+        <hr />
+        <input type="submit" value="Register" />
+    </form>
+</div>
 {% endblock %}

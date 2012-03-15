@@ -68,15 +68,11 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, "static"),
 )
 
-# List of finder classes that know how to find static files in
-# various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
 
 TEMPLATE_LOADERS = (
@@ -122,8 +118,16 @@ INSTALLED_APPS = (
 )
 
 ACCOUNT_ACTIVATION_DAYS = 2
+
+#EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+#EMAIL_FILE_PATH = "/tmp/megascops-email/"
+EMAIL_SUBJECT_PREFIX = "[Megascops]"
+DEFAULT_FROM_EMAIL = "strider@strycore.com"
+
 GEARMAN_SERVERS = ['127.0.0.1:4730']
 GEARMAN_JOB_NAME = "megascops.%(job)s"
+
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

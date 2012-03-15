@@ -12,6 +12,14 @@ def index(request):
             context_instance=RequestContext(request))
 
 
+def video_list(request):
+    videos = Video.objects.all();
+    return render_to_response('video_list.html', {
+        'videos': videos
+        }, context_instance=RequestContext(request)
+    )
+    
+
 def importvideo(request):
     if request.method == "POST":
         video_url = request.POST.get("url")
