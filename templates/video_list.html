@@ -6,7 +6,7 @@
 {% for video in videos %}
 
 <li>
-
+<img src="{{ MEDIA_URL }}/thumnails/{{ video.thumbnail }}"/>
 <h4>{{ video.page_title }}</h4>
 <a href="http://cdn.megascops.org/{{ video.filename }}">Download</a>
 </li>

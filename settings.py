@@ -63,6 +63,9 @@ STATIC_URL = '/static/'
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
+MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
+MEDIA_URL = "/media/"
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, "static"),

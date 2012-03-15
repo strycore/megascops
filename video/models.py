@@ -1,4 +1,6 @@
 from django.db import models
+import settings
+import os
 
 
 class Video(models.Model):
@@ -8,6 +10,8 @@ class Video(models.Model):
     duration = models.IntegerField(default=0)
     filename = models.CharField(max_length=128, blank=True, null=True)
     state = models.CharField(max_length=24)
+    thumbnail = models.FileField(upload_to=os.path.join(settings.MEDIA_ROOT,
+                                                        'thumbnails/'))
     progress = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):

@@ -5,20 +5,32 @@ Megascops
  ------------
 
  Install python dependencies in a virtualenv using the bootstrap.py script
- 
- There are some other non-python dependencies which are required, 
+
+ There are some other non-python dependencies which are required,
  these must be installed before running the bootstrap script.
 
  * gearman
    sudo apt-get install gearman
- * django-gearman
-   pip install -e git://github.com/fwenzel/django-gearman.git#egg=django-gearman
+
  * quvi
    sudo apt-get build-dep libquvi
-   sudo apt-get install libtool gengetopt
+   sudo apt-get install libtool gengetopt lua5.1
    git clone git://repo.or.cz/quvi.git
    cd quvi
    ./autogen.sh
    ./configure [--enable-nsfw]
    make
    sudo make install
+
+ * quvi python bindings
+   the python bindings can't be installed directly using pip requirements 
+   because the install process in done in several steps.
+
+    apt-get install cython
+    pip -e git://github.com/metal3d/python-libquvi.git#egg=quvi
+    cd $VIRTUAL_ENV/src/quvi
+    python setup.py build_ext --inplace
+    python setup.py install
+
+   You can test if you have successfully installed the python bindings by 
+   typing "import quvi" from the python interactive console.

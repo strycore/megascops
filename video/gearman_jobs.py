@@ -7,24 +7,22 @@ from subprocess import PIPE, Popen
 from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
 from gearman import GearmanClient
+from quvi import Quvi
 from megascops.video.models import Video
-
-DATA_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                         "../../videos/"))
-print "Saving videos in %s" % DATA_PATH
+import settings
 
 
 def get_video_info(url):
     vid_info_json, quvi_status = Popen(['quvi', url],
                                        stdout=PIPE,
                                        stderr=PIPE).communicate()
-    print vid_info_json
-    print quvi_status
-    vid_info = json.loads(vid_info_json)
+    quvi = Quvi()
+    quvi.parse(url)
+    vid_info = quvi.getproperties()
     return vid_info
 
 
-class Downloader(object):
+class VideoDownloader(object):
     def __init__(self, video_id):
         self.video_id = video_id
         self.video = Video.objects.get(pk=video_id)
@@ -54,26 +52,33 @@ def get_video_job(video_id):
         video.state = "FETCHING_INFO"
         video.save()
         vid_info = get_video_info(video.page_url)
-        page_title = vid_info['page_title'] if vid_info['page_title']\
-                     else "%s video %s" % (vid_info['host'],
+        page_title = vid_info['pagetitle'] if vid_info['pagetitle']\
+                     else "%s video %s" % (vid_info['hostid'],
                                            str(datetime.now()))
-        video.page_title = 'page_title'
-        video.host = vid_info['host']
+        video.page_title = page_title
+        video.host = vid_info['hostid']
 
-        flv_url = vid_info['link'][0]['url']
+        flv_url = vid_info['mediaurl']
         filename = slugify(page_title)
         video.filename = filename
-        video.save()
+        video.duration = vid_info['mediaduration']
         dest_file = "%s.%s" % (filename,
-                               vid_info['link'][0]['file_suffix'])
-        dest_path = os.path.join(DATA_PATH, dest_file)
+                               vid_info['filesuffix'])
+        dest_path = os.path.join(settings.MEDIA_ROOT, 'video/', dest_file)
+        thumbnail = "%s%s.jpg" % (vid_info['hostid'], vid_info['mediaid'])
+        video.thumbnail = thumbnail
+        thumb_path = os.path.join(settings.MEDIA_ROOT,
+                                  'thumbnails/', thumbnail)
+        urllib.urlretrieve(vid_info['mediathumbnail'], thumb_path)
         video.state = "DOWNLOAD_STARTED"
         video.save()
-        downloader = Downloader(video_id)
+
+        downloader = VideoDownloader(video_id)
         downloader.download(flv_url, dest_path)
         video.state = "DOWNLOAD_FINISHED"
         video.save()
     except Exception, e:
+        print "error"
         print e
 
 
