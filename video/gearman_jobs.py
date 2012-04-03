@@ -8,17 +8,14 @@ from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
 from gearman import GearmanClient
 from quvi import Quvi
-from megascops.video.models import Video
+from video.models import Video
 import settings
 
 
 def get_video_info(url):
-    vid_info_json, quvi_status = Popen(['quvi', url],
-                                       stdout=PIPE,
-                                       stderr=PIPE).communicate()
     quvi = Quvi()
     quvi.parse(url)
-    vid_info = quvi.getproperties()
+    vid_info = quvi.get_properties()
     return vid_info
 
 
@@ -46,6 +43,7 @@ def get_video_job(video_id):
     The video parameter is an object of type Video, as defined in
     megascops.models.Video
     """
+    print "job launched"
     try:
         print "Starting download of video %s" % video_id
         video = Video.objects.get(pk=video_id)
@@ -81,8 +79,24 @@ def get_video_job(video_id):
         print "error"
         print e
 
+@gearman_job
+def encode(video_id):
+    """Encode video using avconv"""
+    try:
+        video = Video.objects.get(pk=video_id)
+    except Video.DoesNotExist:
+        print "The requested video does not exist"
 
-if __name__ == "__main__":
+    video_path = "%svideo/%s" % (settings.MEDIA_ROOT, video.filename)
+    print "converting %s" % video_path
+    cmd = "avconv -i %s" % video_path
+    print "command :  %s"  % cmd
+
+
+def main():
     url = "http://www.youtube.com/watch?v=nxhgP6xsrsY"
     info = get_video_info(url)
     print info
+
+if __name__ == "__main__":
+    main()

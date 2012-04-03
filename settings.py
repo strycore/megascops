@@ -114,23 +114,21 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
-    'megascops.video',
     'django_gearman',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'video',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 2
 
-#EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-#EMAIL_FILE_PATH = "/tmp/megascops-email/"
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = "/tmp/megascops-email/"
 EMAIL_SUBJECT_PREFIX = "[Megascops]"
 DEFAULT_FROM_EMAIL = "strider@strycore.com"
 
-GEARMAN_SERVERS = ['127.0.0.1:4730']
-GEARMAN_JOB_NAME = "megascops.%(job)s"
-
-
+GEARMAN_SERVERS = ['127.0.0.1']
+GEARMAN_JOB_NAME = "%(app)s.%(job)s"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

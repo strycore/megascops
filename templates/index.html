@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% include "_thumbnails.html" %}
 <form class="import-form" action="{% url import_video %}" method="post">
     {% csrf_token %}
     <label>Enter the url of the video you want to save</label>

@@ -1,0 +1,10 @@
+<ul class="thumbnails">
+{% for video in videos %}
+    <li>
+        <img width="120" height="90" src="{{ MEDIA_URL }}thumbnails/{{ video.thumbnail }}"/>
+        <h4>{{ video.page_title }}</h4>
+        <a href="{{ MEDIA_URL }}video/{{ video.filename }}">Download</a>
+        <a href="{% url convert video_id=video.id %}">Convert</a>
+    </li>
+{% endfor %}
+</ul>

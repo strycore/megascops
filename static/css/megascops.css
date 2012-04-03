@@ -15,7 +15,7 @@ body {
   font-weight: lighter;
   color: #555;
   text-shadow: 1px 1px 0 #FFF;
-  margin: 10px 30px;
+  margin: 10px 0;
   font-size: 2em;
   text-decoration: none;
 }
@@ -80,6 +80,7 @@ label {
 }
 .content {
   margin: auto;
+  width: 960px;
 }
 .login {
   position: absolute;
@@ -100,7 +101,7 @@ label {
   text-decoration: underline;
 }
 .import-form {
-  margin: 30px;
+  margin: 10px 0;
   min-width: 200px;
 }
 .import-form input[type="text"] {
@@ -123,11 +124,35 @@ label {
 .small-form {
   display: inline-block;
 }
+.thumbnails {
+  list-style-type: none;
+  font-size: .8em;
+}
+.thumbnails li {
+  width: 120px;
+  height: 160px;
+  margin-right: 15px;
+  display: block;
+  float: left;
+  border: 1px solid #DDD;
+  padding: 10px;
+}
+.thumbnails h4 {
+  font-weight: normal;
+  font-size: .9em;
+}
+.thumbnails a {
+  color: #333;
+}
+.thumbnails:after {
+  content: " ";
+  clear: both;
+  display: block;
+}
 footer {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  padding: 10px 0;
+  width: 900px;
+  padding: 50px 30px;
+  margin-top: 50px;
   text-align: center;
   border-top: 1px solid #666;
   color: #CCC;

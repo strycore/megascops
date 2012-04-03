@@ -3,6 +3,9 @@
 {% block content %}
     {{ video.state }}
     {% if video.state == "DOWNLOAD_STARTED" %}
-        Progress : {{ video.progress }} % 
+        <h1>Your video is being downloaded</h1>
+        <progress value="{{ video.progress }}" max="100">
+        </progress>
+        Progress : {{ video.progress }} %
     {% endif %}
 {% endblock %}

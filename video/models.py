@@ -1,7 +1,13 @@
 from django.db import models
+from datetime import datetime
 import settings
 import os
 
+class VideoManager(models.Manager):
+    def get_query_set(self):
+        return super(VideoManager, self).get_query_set().filter(
+                state="DOWNLOAD_FINISHED"
+            )
 
 class Video(models.Model):
     host = models.CharField(max_length=64, blank=True, null=True)
@@ -13,6 +19,10 @@ class Video(models.Model):
     thumbnail = models.FileField(upload_to=os.path.join(settings.MEDIA_ROOT,
                                                         'thumbnails/'))
     progress = models.FloatField(blank=True, null=True)
+    created_at = models.DateTimeField(default=datetime.now)
+
+    objects = models.Manager()
+    ready = VideoManager()
 
     def __unicode__(self):
         return "[%s] %s" % (self.state, self.page_url)
