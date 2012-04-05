@@ -1,6 +1,7 @@
 import os
+from os.path import join, abspath, dirname
 
-PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+PROJECT_PATH = abspath(dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -14,7 +15,7 @@ DEFAULT_FROM_EMAIL = 'admin@megascops.org'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(PROJECT_PATH, 'megascops.db'),
+        'NAME': join(PROJECT_PATH, 'megascops.db'),
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',
@@ -36,6 +37,7 @@ TIME_ZONE = 'Europe/Paris'
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
+SITE_NAME = "http://megascops.org/"
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -52,7 +54,7 @@ USE_L10N = True
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = join(PROJECT_PATH, 'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -63,13 +65,11 @@ STATIC_URL = '/static/'
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
+MEDIA_ROOT = join(PROJECT_PATH, "media")
 MEDIA_URL = "/media/"
 
 # Additional locations of static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, "static"),
-)
+STATICFILES_DIRS = ()
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -94,7 +94,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'megascops.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, 'templates'),
+    join(PROJECT_PATH, 'templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -102,6 +102,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
+    'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
 )
@@ -120,6 +121,7 @@ INSTALLED_APPS = (
     'video',
 )
 
+LOGIN_REDIRECT_URL = "/"
 ACCOUNT_ACTIVATION_DAYS = 2
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
@@ -129,6 +131,9 @@ DEFAULT_FROM_EMAIL = "strider@strycore.com"
 
 GEARMAN_SERVERS = ['127.0.0.1']
 GEARMAN_JOB_NAME = "%(app)s.%(job)s"
+
+DEFAULT_SIZE_QUOTA = 52428800
+DEFAULT_VIDEO_QUOTA = 5
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

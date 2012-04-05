@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 from django_gearman import GearmanClient, Task
 from models import Video
@@ -22,6 +23,7 @@ def video_list(request):
     )
 
 
+@login_required
 def importvideo(request):
     if request.method == "POST":
         video_url = request.POST.get("url")
@@ -34,12 +36,12 @@ def importvideo(request):
     except ObjectDoesNotExist:
         state = "DOWNLOAD_INIT"
         video = Video()
+        video.profile = request.user.profile
         video.page_url = video_url
         video.state = state
         video.save()
         client = GearmanClient()
-        t = client.dispatch_background_task('video.get_video_job', video.id)
-        print t
+        client.dispatch_background_task('video.get_video_job', video.id)
     else:
         state = video.state
 
@@ -50,5 +52,18 @@ def importvideo(request):
 
 def convert(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
+    video.state = "CONVERTING"
+    video.save()
+    client = GearmanClient()
+    client.dispatch_background_task('video.encode', video.id)
+
 
     return redirect("/converting/")
+
+def play(request, filename):
+    video = get_object_or_404(Video, filename=filename)
+    return render_to_response('play.html', {
+        'video': video 
+        }, context_instance=RequestContext(request)
+    )
+    

@@ -1,10 +1,25 @@
+{% if videos %}
+
+<div class="span12">
 <ul class="thumbnails">
-{% for video in videos %}
-    <li>
+  {% for video in videos %}
+    <li class="span2">
+      <div class="thumbnail">
         <img width="120" height="90" src="{{ MEDIA_URL }}thumbnails/{{ video.thumbnail }}"/>
-        <h4>{{ video.page_title }}</h4>
-        <a href="{{ MEDIA_URL }}video/{{ video.filename }}">Download</a>
-        <a href="{% url convert video_id=video.id %}">Convert</a>
+        <div class="caption">
+          <h5>{{ video.page_title }}</h5>
+          <div class="btn-group">
+            <a class="btn btn-mini" href="{% url play filename=video.filename %}">Play</a>
+            <a class="btn btn-mini" href="{% url convert video_id=video.id %}">Convert</a>
+          </div>
+        </div>
+      </div>
     </li>
-{% endfor %}
+  {% endfor %}
 </ul>
+</div>
+{% else %}
+  <div class="span12">
+    No videos available :(
+  </div>
+{% endif %}

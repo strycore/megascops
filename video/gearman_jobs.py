@@ -28,7 +28,7 @@ class VideoDownloader(object):
         bytes_downloaded = piece * block_size
         progress = bytes_downloaded / (total_size * 1.0)
         print "%d / %d " % (bytes_downloaded, total_size)
-        if piece % 25 == 0:
+        if piece % 100 == 0:
             self.video.progress = progress
             self.video.save()
 
@@ -60,6 +60,7 @@ def get_video_job(video_id):
         filename = slugify(page_title)
         video.filename = filename
         video.duration = vid_info['mediaduration']
+        video.file_suffix = vid_info['filesuffix']
         dest_file = "%s.%s" % (filename,
                                vid_info['filesuffix'])
         dest_path = os.path.join(settings.MEDIA_ROOT, 'video/', dest_file)

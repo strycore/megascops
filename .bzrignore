@@ -1,5 +1,4 @@
 megascops.db
 local_settings.py
-media/thumbnails/toto.txt
-media/thumbnails/youtubeH3O0bXsOsc8.jpg
-media/video/minecraft-adventure-e05-mine-shaft-minecraft-12-game-play.flv
+media/thumbnails/*
+media/video/*

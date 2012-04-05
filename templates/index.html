@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "_thumbnails.html" %}
+<section>
+<div class="page-header">
+    <h1>Recent videos</h1>
+</div>
+<div class="row">
+    {% include "_thumbnails.html" %}
+</div>
+</section>
 <form class="import-form" action="{% url import_video %}" method="post">
     {% csrf_token %}
     <label>Enter the url of the video you want to save</label>

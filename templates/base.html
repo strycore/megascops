@@ -2,31 +2,78 @@
 <html lang=en-us>
     <head>
         <meta charset=utf-8>
-        <meta http-equiv=X-UA-Compatible content="IE=Edge;chrome=1">
-        <meta name=viewport content="width=device-width, initial-scale=1.0">
         <title>Megascops</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
         <link rel="stylesheet" href="{{ STATIC_URL }}css/megascops.css" type="text/css">
-        </script>
+        <style type="text/css" media="screen">
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/responsive.css" type="text/css">
         <script src="http://localhost:8001/vogue-client.js" type="text/javascript"></script>
+        {% block stylesheet %}
+        {% endblock %}
     </head>
-    <body>
-      <div class="content">
-        <header>
-        <a href="/" class="site-title">Megascops<span>Free your videos</span></a>
-        <div class="login">
-          <a href="/accounts/login">Login</a>
-          <a href="/accounts/register">Subscribe</a>
+    <body data-spy="scroll" data-target=".subnav" data-offset="50">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Megascops</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/about/">About</a></li>
+              <li><a href="/contact/">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+          <div class="navbar-text pull-right">
+            {% if user.is_anonymous %}
+                <a href="/accounts/login">Login</a>
+                <span class="divider-vertical"></span>
+                <a href="/accounts/register">Subscribe</a>
+            {% else %}
+                Logged in as
+                <a href="#">{{ user.username }}</a>
+            {% endif %}
+            </div>
         </div>
-        </header>
-        <div class="content">
+      </div>
+    </div>
+    <div class="container-fluid">
         {% block content %}
         {% endblock %}
-        </div>
         <footer>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+        &copy; 2012 <a href="http://strycore.com">Mathieu Comandon</a>.<br/>
+        <strong>Megascops</strong> is Free Software and is available under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL v3.0</a> license terms.
         </footer>
-      </div>
+    </div>
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap-transition.js"></script>
+    <script src="/static/js/bootstrap-alert.js"></script>
+    <script src="/static/js/bootstrap-modal.js"></script>
+    <script src="/static/js/bootstrap-dropdown.js"></script>
+    <script src="/static/js/bootstrap-scrollspy.js"></script>
+    <script src="/static/js/bootstrap-tab.js"></script>
+    <script src="/static/js/bootstrap-tooltip.js"></script>
+    <script src="/static/js/bootstrap-popover.js"></script>
+    <script src="/static/js/bootstrap-button.js"></script>
+    <script src="/static/js/bootstrap-collapse.js"></script>
+    <script src="/static/js/bootstrap-carousel.js"></script>
+    <script src="/static/js/bootstrap-typeahead.js"></script>
+    {% block javascript %}
+    {% endblock %}
     </body>
 </html>
 
