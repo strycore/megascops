@@ -10,7 +10,7 @@ from models import Video
 
 
 def index(request):
-    videos = Video.ready.all()
+    videos = Video.objects.all()
     return render_to_response('index.html', {'videos': videos},
             context_instance=RequestContext(request))
 
@@ -63,7 +63,7 @@ def convert(request, video_id):
 def play(request, filename):
     video = get_object_or_404(Video, filename=filename)
     return render_to_response('play.html', {
-        'video': video 
+        'video': video
         }, context_instance=RequestContext(request)
     )
-    
+

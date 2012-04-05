@@ -1,1 +1,1 @@
-/media/sourcecode/devel/Projects/virtualenvs/megascops/megascops/video/static/js/bootstrap-tooltip.js
+/home/mathieu/Projects/virtualenvs/megascops/megascops/video/static/js/bootstrap-tooltip.js

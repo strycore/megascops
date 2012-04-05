@@ -1,1 +1,1 @@
-/media/sourcecode/devel/Projects/virtualenvs/megascops/megascops/video/static/js/tests/unit/bootstrap-modal.js
+/home/mathieu/Projects/virtualenvs/megascops/megascops/video/static/js/tests/unit/bootstrap-modal.js

@@ -1,1 +1,1 @@
-/media/sourcecode/devel/Projects/virtualenvs/megascops/megascops/video/static/js/tests/unit/bootstrap-alert.js
+/home/mathieu/Projects/virtualenvs/megascops/megascops/video/static/js/tests/unit/bootstrap-alert.js

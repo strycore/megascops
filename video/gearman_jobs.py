@@ -6,7 +6,7 @@ import datetime
 from subprocess import PIPE, Popen
 from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
-from gearman import GearmanClient
+from django_gearman import GearmanClient, Task
 from quvi import Quvi
 from video.models import Video
 import settings
@@ -76,6 +76,11 @@ def get_video_job(video_id):
         downloader.download(flv_url, dest_path)
         video.state = "DOWNLOAD_FINISHED"
         video.save()
+
+        # Launch video encoding
+        client = GearmanClient()
+        client.dispatch_background_task('video.encode', video.id)
+
     except Exception, e:
         print "error"
         print e

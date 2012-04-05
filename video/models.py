@@ -12,6 +12,10 @@ class Profile(models.Model):
     size_quota = models.IntegerField(default=settings.DEFAULT_SIZE_QUOTA)
     video_quota = models.IntegerField(default=settings.DEFAULT_VIDEO_QUOTA)
 
+    def __unicode__(self):
+        return self.user.username
+
+
 class VideoManager(models.Manager):
     def get_query_set(self):
         return super(VideoManager, self).get_query_set().filter(
@@ -25,7 +29,7 @@ class Video(models.Model):
     page_url = models.CharField(max_length=256)
     duration = models.IntegerField(default=0)
     filename = models.CharField(max_length=256)
-    file_suffix = models.CharField(max_length=10) 
+    file_suffix = models.CharField(max_length=10)
     state = models.CharField(max_length=24)
     thumbnail = models.FileField(upload_to=os.path.join(settings.MEDIA_ROOT,
                                                         'thumbnails/'))
