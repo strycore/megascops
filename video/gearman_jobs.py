@@ -88,15 +88,41 @@ def get_video_job(video_id):
 @gearman_job
 def encode(video_id):
     """Encode video using avconv"""
+    print "convert in progress"
     try:
         video = Video.objects.get(pk=video_id)
     except Video.DoesNotExist:
         print "The requested video does not exist"
+        return
 
-    video_path = "%svideo/%s" % (settings.MEDIA_ROOT, video.filename)
-    print "converting %s" % video_path
-    cmd = "avconv -i %s" % video_path
-    print "command :  %s"  % cmd
+    try:
+        path_format = "%s/video/%s.%s"
+        orig_file = path_format % (settings.MEDIA_ROOT, 
+                                video.filename, video.file_suffix)
+        mp4_file = path_format % (settings.MEDIA_ROOT, 
+                                video.filename, "mp4")
+        webm_file = path_format % (settings.MEDIA_ROOT, 
+                                video.filename, "webm")
+
+        cmd = "avconv -i %(input)s %(codec)s %(options)s %(output)s"
+        if orig_file != webm_file:
+            if os.path.exists(webm_file):
+                os.remove(webm_file)
+            params = {"input": orig_file, "output": webm_file, 
+                      "codec": "-vcodec libvpx -acodec libvorbis",
+                      "options": "-b:v 1250k -qmax 63 -b:a 56k -ar 22050"}
+            print cmd % params
+            Popen(cmd % params, shell=True).communicate()
+        if orig_file != mp4_file:
+            if os.path.exists(mp4_file):
+                os.remove(mp4_file)
+            params = {"input": orig_file, "output": mp4_file,
+                      "codec": "", "options": ""}
+            print cmd % params
+            Popen(cmd % params, shell=True).communicate()
+    except Exception, e:
+        print "convert error"
+        print e
 
 
 def main():

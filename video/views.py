@@ -58,7 +58,7 @@ def convert(request, video_id):
     client.dispatch_background_task('video.encode', video.id)
 
 
-    return redirect("/converting/")
+    return redirect("/")
 
 def play(request, filename):
     video = get_object_or_404(Video, filename=filename)

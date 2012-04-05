@@ -1,28 +1,20 @@
 [
   {
-    "pk": 1,
-    "model": "auth.user",
     "fields": {
-      "username": "strider",
-      "first_name": "",
-      "last_name": "",
-      "is_active": true,
-      "is_superuser": true,
-      "is_staff": true,
-      "last_login": "2012-03-04 03:43:43",
-      "groups": [],
-      "user_permissions": [],
-      "password": "sha1$32f9b$3acaf146f1470af84cdf46e02e8b7f4c3fd8eed2",
-      "email": "strider@strycore.com",
-      "date_joined": "2012-03-04 03:43:33"
-    }
-  },
-  {
-    "pk": "720381d82db017b4c9748ebe8dadb469",
-    "model": "sessions.session",
-    "fields": {
-      "expire_date": "2012-06-18 03:43:43",
-      "session_data": "ODliZmM2NTZlM2NiNTJkNzcxZDE4MTM0OTg2M2FiNGRhZDhmOTBkZjqAAn1xAShVEl9hdXRoX3Vz\nZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED\nVQ1fYXV0aF91c2VyX2lkcQRLAXUu\n"
-    }
-  }  
+      "date_joined": "2012-03-04 03:43:33", 
+      "email": "strider@strycore.com", 
+      "first_name": "", 
+      "groups": [], 
+      "is_active": true, 
+      "is_staff": true, 
+      "is_superuser": true, 
+      "last_login": "2012-04-06 00:56:31", 
+      "last_name": "", 
+      "password": "sha1$32f9b$3acaf146f1470af84cdf46e02e8b7f4c3fd8eed2", 
+      "user_permissions": [], 
+      "username": "strider"
+    }, 
+    "model": "auth.user", 
+    "pk": 1
+  }
 ]

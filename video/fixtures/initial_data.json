@@ -1,0 +1,11 @@
+[
+  {
+    "pk": 1,
+    "model": "video.profile",
+    "fields": {
+      "size_quota": 52428800,
+      "user": 1,
+      "video_quota": 5
+    }
+  }
+]

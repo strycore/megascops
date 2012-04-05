@@ -10,8 +10,12 @@
   </section>
 
   <div class="video-background">
-      <video src="{{ MEDIA_URL }}video/{{ video.filename }}.webm"></video> 
-  </div>    
+      <video>
+        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.webm" type="video/ogg">  
+        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.mp4" type="video/mp4">  
+        Your browser does not support the <code>video</code> element.  
+      </video>
+  </div>
 {% endblock %}
 
 {% block javascript %}
