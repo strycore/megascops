@@ -8,26 +8,32 @@
   <canvas id="livecast" width="640" height="480" />
 </div>
 <div id="instructions">
+  <h3><img src="{{ STATIC_URL }}images/vlc.png">How it works ?</h3>
+  <p>
+  The livecast functionnality of Megascops requires vlc running on your computer.
+  Launch the following commands to stream your screen and your webcam.
+  </p>
 <pre>
-cvlc screen://  --screen-fps 10 --screen-follow-mouse --screen-width 640 --screen-height 480 --sout '#transcode{vcodec=theo,vb=800,scale=1,width=640,height=480}:http{dst=0.0.0.0:8091/stream.ogg}' --http-host=0.0.0.0
+cvlc screen:// --screen-fps 10 --screen-follow-mouse --screen-width 640 --screen-height 480 --sout '#transcode{vcodec=theo,vb=1200,scale=1,width=640,height=480}:http{dst=0.0.0.0:8091/stream.ogg}'
 </pre>
 <pre>
-cvlc v4l2:///dev/video0 --sout '#transcode{vcodec=theo,vb=400,scale=1,acodec=vorb,ab=64,channels=2,samplerate=22050}:http{dst=0.0.0.0:8090/stream.ogg}'
+cvlc v4l2:///dev/video0 --sout '#transcode{vcodec=theo,fps=10,width=160,height=120,vb=800}:http{dst=0.0.0.0:8090/webcam.ogg}'
 </pre>
 <a href="#" class="btn" id="toggle-video-button">Toggle video display</a>
 </div>
 <div id="streams" style="display: none;">
 <video id="screencast" autoplay
-       src="http://{{ host }}:{{ screencast_port }}/stream.ogg"></video>
+src="http://{{ host }}:{{ screencast_port }}/stream.ogg?ts={{ timestamp }}"></video>
 <video id="webcam" autoplay
-       src="http://{{ host }}:{{ webcam_port }}/webcam.ogg"></video>
+src="http://{{ host }}:{{ webcam_port }}/webcam.ogg?ts={{ timestamp }}"></video>
 </div>
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/livecast.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    $("#toggle-video-button").click(function() {
+    $("#toggle-video-button").click(function(event) {
+      event.preventDefault();
       $("#streams").toggle();
     });
     processor.doLoad();

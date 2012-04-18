@@ -4,6 +4,7 @@ from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+import time
 
 from django_gearman import GearmanClient, Task
 from models import Video
@@ -69,11 +70,12 @@ def play(request, filename):
 
 def livecast(request):
 
+    timestamp = int(time.time())
     return render_to_response(
         'livecast.html', {
             'host': 'localhost',
             'webcam_port': '8090',
-            'screencast_port': '8091'
-
+            'screencast_port': '8091',
+            'timestamp': timestamp
             }, context_instance=RequestContext(request)
     )
