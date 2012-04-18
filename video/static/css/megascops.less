@@ -128,14 +128,18 @@ label {
 
 .video-background {
     #gradient > .vertical(#222, #000);
-    position: absolute;
     left: 0;
     right: 0;
     padding: 60px;
+    margin-bottom: 30px;
     .box-shadow(0 6px 13px #444);
-    video, .mejs-container {
+    canvas, video, .mejs-container {
         display: block;
         margin: auto;
         .center-block();
     }
+    canvas {
+      outline: 1px dotted red;  
+    }
 }
+

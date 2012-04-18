@@ -19,7 +19,7 @@ class Profile(models.Model):
 class VideoManager(models.Manager):
     def get_query_set(self):
         return super(VideoManager, self).get_query_set().filter(
-                state="READY"
+                state__in=["READY", "DOWNLOAD_FINISHED"]
             )
 
 class Video(models.Model):
@@ -32,7 +32,8 @@ class Video(models.Model):
     file_suffix = models.CharField(max_length=10)
     state = models.CharField(max_length=24)
     thumbnail = models.FileField(upload_to=os.path.join(settings.MEDIA_ROOT,
-                                                        'thumbnails/'))
+                                                        'thumbnails/'), 
+                                 null=True)
     progress = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
 

@@ -2,7 +2,8 @@ import os
 import json
 import urllib
 import urlparse
-import datetime
+import traceback
+from datetime import datetime
 from subprocess import PIPE, Popen
 from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
@@ -16,6 +17,7 @@ def get_video_info(url):
     quvi = Quvi()
     quvi.parse(url)
     vid_info = quvi.get_properties()
+    print vid_info
     return vid_info
 
 
@@ -64,11 +66,12 @@ def get_video_job(video_id):
         dest_file = "%s.%s" % (filename,
                                vid_info['filesuffix'])
         dest_path = os.path.join(settings.MEDIA_ROOT, 'video/', dest_file)
-        thumbnail = "%s%s.jpg" % (vid_info['hostid'], vid_info['mediaid'])
-        video.thumbnail = thumbnail
-        thumb_path = os.path.join(settings.MEDIA_ROOT,
-                                  'thumbnails/', thumbnail)
-        urllib.urlretrieve(vid_info['mediathumbnail'], thumb_path)
+        if vid_info['mediathumbnail']:
+            thumbnail = "%s%s.jpg" % (vid_info['hostid'], vid_info['mediaid'])
+            video.thumbnail = thumbnail
+            thumb_path = os.path.join(settings.MEDIA_ROOT,
+                                    'thumbnails/', thumbnail)
+            urllib.urlretrieve(vid_info['mediathumbnail'], thumb_path)
         video.state = "DOWNLOAD_STARTED"
         video.save()
 
@@ -84,6 +87,8 @@ def get_video_job(video_id):
     except Exception, e:
         print "error"
         print e
+        print traceback.format_exc()
+
 
 @gearman_job
 def encode(video_id):

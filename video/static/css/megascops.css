@@ -4116,14 +4116,15 @@ label {
   background-image: linear-gradient(top, #222222, #000000);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222222', endColorstr='#000000', GradientType=0);
-  position: absolute;
   left: 0;
   right: 0;
   padding: 60px;
+  margin-bottom: 30px;
   -webkit-box-shadow: 0 6px 13px #444444;
   -moz-box-shadow: 0 6px 13px #444444;
   box-shadow: 0 6px 13px #444444;
 }
+.video-background canvas,
 .video-background video,
 .video-background .mejs-container {
   display: block;
@@ -4131,4 +4132,7 @@ label {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.video-background canvas {
+  outline: 1px dotted red;
 }

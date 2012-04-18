@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block meta %}
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+{% endblock %}
+{% block content %}
+<h1>Livecast</h1>
+<div class="video-background" id="livecast-player">
+  <canvas id="livecast" width="640" height="480" />
+</div>
+<div id="instructions">
+<pre>
+cvlc screen://  --screen-fps 10 --screen-follow-mouse --screen-width 640 --screen-height 480 --sout '#transcode{vcodec=theo,vb=800,scale=1,width=640,height=480}:http{dst=0.0.0.0:8091/stream.ogg}' --http-host=0.0.0.0
+</pre>
+<pre>
+cvlc v4l2:///dev/video0 --sout '#transcode{vcodec=theo,vb=400,scale=1,acodec=vorb,ab=64,channels=2,samplerate=22050}:http{dst=0.0.0.0:8090/stream.ogg}'
+</pre>
+<a href="#" class="btn" id="toggle-video-button">Toggle video display</a>
+</div>
+<div id="streams" style="display: none;">
+<video id="screencast" autoplay
+       src="http://{{ host }}:{{ screencast_port }}/stream.ogg"></video>
+<video id="webcam" autoplay
+       src="http://{{ host }}:{{ webcam_port }}/webcam.ogg"></video>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/livecast.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#toggle-video-button").click(function() {
+      $("#streams").toggle();
+    });
+    processor.doLoad();
+  });
+</script>
+
+{% endblock %}

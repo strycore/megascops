@@ -10,7 +10,7 @@ from models import Video
 
 
 def index(request):
-    videos = Video.objects.all()
+    videos = Video.ready.all()
     return render_to_response('index.html', {'videos': videos},
             context_instance=RequestContext(request))
 
@@ -56,9 +56,8 @@ def convert(request, video_id):
     video.save()
     client = GearmanClient()
     client.dispatch_background_task('video.encode', video.id)
-
-
     return redirect("/")
+
 
 def play(request, filename):
     video = get_object_or_404(Video, filename=filename)
@@ -67,3 +66,14 @@ def play(request, filename):
         }, context_instance=RequestContext(request)
     )
 
+
+def livecast(request):
+
+    return render_to_response(
+        'livecast.html', {
+            'host': 'localhost',
+            'webcam_port': '8090',
+            'screencast_port': '8091'
+
+            }, context_instance=RequestContext(request)
+    )
