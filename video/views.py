@@ -73,7 +73,7 @@ def livecast(request):
     timestamp = int(time.time())
     return render_to_response(
         'livecast.html', {
-            'host': 'localhost',
+            'host': 'newport.strycore.com',
             'webcam_port': '8090',
             'screencast_port': '8091',
             'timestamp': timestamp

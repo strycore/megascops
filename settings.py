@@ -10,7 +10,6 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-DEFAULT_FROM_EMAIL = 'admin@megascops.org'
 
 DATABASES = {
     'default': {

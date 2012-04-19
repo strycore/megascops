@@ -25,10 +25,25 @@ var processor = {
     this.livecastContext.clearRect(0, 0, this.width, this.height);
     try {
       this.livecastContext.drawImage(this.screencast, 0, 0, this.width, this.height);
-      this.livecastContext.drawImage(this.webcam, this.width - this.camwidth -offset , this.height -this.camheight -offset , this.camwidth, this.camheight);
+      this.livecastContext.drawImage(
+            this.webcam,
+            this.width - this.camwidth - offset,
+            this.height -this.camheight - offset, 
+            this.camwidth, this.camheight);
     } catch(e) {
       return;
     }
   }
 };
 
+$(document).ready(function () {
+    $('#change-stream').click(function (e) {
+        e.preventDefault();
+        var screencast_url = $("#livecast-input").val();
+        console.log(screencast_url);
+        console.log($('#screencast').attr('src'));
+        $("#screencast").attr('src', screencast_url);
+        $("#screencast").attr('width', '640');
+        $("#screencast").attr('height', '480');
+    });
+})

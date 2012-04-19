@@ -20,6 +20,8 @@ cvlc screen:// --screen-fps 10 --screen-follow-mouse --screen-width 640 --screen
 cvlc v4l2:///dev/video0 --sout '#transcode{vcodec=theo,fps=10,width=160,height=120,vb=800}:http{dst=0.0.0.0:8090/webcam.ogg}'
 </pre>
 <a href="#" class="btn" id="toggle-video-button">Toggle video display</a>
+<input type="text" id="livecast-input" />
+<a href="#" class="btn" id="change-stream">Switch stream</a>
 </div>
 <div id="streams" style="display: none;">
 <video id="screencast" autoplay
