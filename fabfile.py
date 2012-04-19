@@ -15,6 +15,7 @@ RSYNC_EXCLUDE = (
     'bootstrap.py',
     'reload',
     'save-fixtures',
+    'media/*',
 )
 
 # Structure of the project on the server
@@ -28,7 +29,6 @@ RSYNC_EXCLUDE = (
 env.home = REMOTE_PATH
 env.project = PROJECT_NAME
 
-
 def _setup_path():
     env.root = join(env.home, env.environment)
     env.code_root = join(env.root, env.project)
@@ -38,6 +38,7 @@ def staging():
     env.user = 'django'
     env.environment = 'staging'
     env.hosts = [REMOTE_HOST]
+    env.host = REMOTE_HOST
     _setup_path()
 
 
@@ -77,7 +78,7 @@ def update_vhost():
     local('sed -i s#%%ROOT%%#%(home)s#g /tmp/%(project)s.conf' % env)
     local('sed -i s/%%PROJECT%%/%(project)s/g /tmp/%(project)s.conf' % env)
     local('sed -i s/%%ENV%%/%(environment)s/g /tmp/%(project)s.conf' % env)
-    local('sed -i s/%%DOMAIN%%/%s/g /tmp/%(project)s.conf' % (REMOTE_HOST, env))
+    local('sed -i s/%%DOMAIN%%/%(host)s/g /tmp/%(project)s.conf' % env)
     put('/tmp/%(project)s.conf' % env, '%(root)s' % env)
     sudo('cp %(root)s/%(project)s.conf ' % env +\
          '/etc/apache2/sites-available/%(project)s' % env, shell=False)
@@ -111,6 +112,9 @@ def copy_local_settings():
     with cd(env.code_root):
         run('mv local_settings_%(environment)s.py local_settings.py' % env)
 
+def collectstatic():
+    with cd(env.code_root):
+        run('source ../bin/activate; python manage.py collectstatic --noinput')
 
 def configtest():
     run("apache2ctl configtest")
@@ -121,6 +125,7 @@ def deploy():
     rsync()
     copy_local_settings()
     reload_data()
+    collectstatic()
     update_vhost()
     configtest()
     apache_reload()

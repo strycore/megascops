@@ -118,7 +118,7 @@ INSTALLED_APPS = (
     'django_gearman',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'video',
+    'video'
 )
 
 LOGIN_REDIRECT_URL = "/"
