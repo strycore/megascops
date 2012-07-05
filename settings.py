@@ -1,9 +1,9 @@
-import os
 from os.path import join, abspath, dirname
 
 PROJECT_PATH = abspath(dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+COMPRESS_ENABLED = False
 
 ADMINS = (
      ('Mathieu Comandon', 'strider@strycore.com'),
@@ -73,6 +73,7 @@ STATICFILES_DIRS = ()
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
@@ -88,6 +89,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
 )
 
 ROOT_URLCONF = 'megascops.urls'
@@ -117,7 +123,8 @@ INSTALLED_APPS = (
     'django_gearman',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'video'
+    'video',
+    'compressor',
 )
 
 LOGIN_REDIRECT_URL = "/"

@@ -3,3 +3,7 @@ local_settings.py
 media/thumbnails/*
 media/video/*
 config/local_settings_staging.py
+/static
+/PYSMELLTAGS
+/PYSMELLTAGS.stdlib
+tags
