@@ -120,11 +120,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
+    'compressor',
+    'south',
     'django_gearman',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'video',
-    'compressor',
 )
 
 LOGIN_REDIRECT_URL = "/"

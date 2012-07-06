@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class='progress-box'>
-  <h1>Downloading your video</h1>
-  {% if video.state == "DOWNLOAD_STARTED" %}
-  <progress id="download-progress-bar"
-    value="{{ video.progress }}"
-    max=100><span>{{ video.progress }}</span> %</progress>
-  {% else %}
-    <img src="{{ STATIC_URL }}images/spinner.gif" alt="" /><br>
-  {% endif %}
+<div id="video-monitor-container">
+  <div class='progress-box' id="video-monitor" data-video-id="{{ video.id }}">
+    <h1>Downloading your video</h1>
+    {% if video.state == "DOWNLOAD_STARTED" %}
+    <progress id="download-progress-bar"
+      value="{{ video.progress }}"
+      max=100><span>{{ video.progress }}</span> %</progress>
+    {% elif video.state == "FETCHING_INFO" %}
+      <img src="{{ STATIC_URL }}images/spinner.gif" alt="" /><br>
+      <span>Gathering video information…</span>
+    {% elif video.state == "BLOP" %}
+    {% else %}
+      {{ video.state }}
+      {{ video.id }}
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

@@ -5,7 +5,11 @@
   {% for video in videos %}
     <li class="span2">
       <div class="thumbnail">
-        <img width="120" height="90" src="{{ MEDIA_URL }}thumbnails/{{ video.thumbnail }}"/>
+        {% if video.thumbnail %}
+          <img src="{{ MEDIA_URL }}thumbnails/{{ video.thumbnail }}"/>
+        {% else %}
+            
+        {% endif %}
         <div class="caption">
           <h5>{{ video.page_title }}</h5>
           <div class="btn-group">
