@@ -82,6 +82,15 @@ def play(request, filename):
     )
 
 
+@login_required
+def delete(request, video_id):
+    video = get_object_or_404(Video, pk=video_id)
+    video.delete()
+    # TODO : delete the files
+    return render_to_response('deleted.html', {},
+                              context_instance=RequestContext(request))
+
+
 def livecast(request):
     """Experimental livecast"""
     timestamp = int(time.time())

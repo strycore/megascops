@@ -7,5 +7,6 @@ urlpatterns = patterns('video.views',
     url(r'^refresh/(?P<video_id>[\d]+)/$', 'refresh', name="refresh"),
     url(r'^convert/(?P<video_id>[\d]+)$', 'convert', name="convert"),
     url(r'play/(?P<filename>[\w\d\-]+)$', 'play', name="play"),
+    url(r'delete/(?P<video_id>[\d]+)/$', 'delete', name='delete'),
     url(r'livecast/', 'livecast', name='livecast'),
 )

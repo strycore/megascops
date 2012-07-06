@@ -1,13 +1,13 @@
 import os
-import json
+#import json
 import urllib
-import urlparse
+#import urlparse
 import traceback
 from datetime import datetime
-from subprocess import PIPE, Popen
+from subprocess import Popen
 from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
-from django_gearman import GearmanClient, Task
+from django_gearman import GearmanClient
 from quvi import Quvi
 from video.models import Video
 import settings
@@ -17,7 +17,6 @@ def get_video_info(url):
     quvi = Quvi()
     quvi.parse(url)
     vid_info = quvi.get_properties()
-    print vid_info
     return vid_info
 
 
@@ -31,14 +30,14 @@ class VideoDownloader(object):
         progress = bytes_downloaded / (total_size * 1.0)
         print "%d / %d " % (bytes_downloaded, total_size)
         if piece % 100 == 0:
-            self.video.progress = progress
+            self.video.progress = progress * 100
             self.video.save()
 
     def download(self, url, dest_path):
         urllib.urlretrieve(url, dest_path, self._download_monitor)
 
 
-@gearman_job
+@gearman_job(queue="video-downloader")
 def get_video_job(video_id):
     """Gearman job to download the video.
 
@@ -90,7 +89,7 @@ def get_video_job(video_id):
         print traceback.format_exc()
 
 
-@gearman_job
+@gearman_job(queue="video-downloader")
 def encode(video_id):
     """Encode video using avconv"""
     print "convert in progress"
@@ -102,18 +101,18 @@ def encode(video_id):
 
     try:
         path_format = "%s/video/%s.%s"
-        orig_file = path_format % (settings.MEDIA_ROOT, 
+        orig_file = path_format % (settings.MEDIA_ROOT,
                                 video.filename, video.file_suffix)
-        mp4_file = path_format % (settings.MEDIA_ROOT, 
+        mp4_file = path_format % (settings.MEDIA_ROOT,
                                 video.filename, "mp4")
-        webm_file = path_format % (settings.MEDIA_ROOT, 
+        webm_file = path_format % (settings.MEDIA_ROOT,
                                 video.filename, "webm")
 
         cmd = "avconv -i %(input)s %(codec)s %(options)s %(output)s"
         if orig_file != webm_file:
             if os.path.exists(webm_file):
                 os.remove(webm_file)
-            params = {"input": orig_file, "output": webm_file, 
+            params = {"input": orig_file, "output": webm_file,
                       "codec": "-vcodec libvpx -acodec libvorbis",
                       "options": "-b:v 1250k -qmax 63 -b:a 56k -ar 22050"}
             print cmd % params

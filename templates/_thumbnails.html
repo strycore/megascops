@@ -8,13 +8,14 @@
         {% if video.thumbnail %}
           <img src="{{ MEDIA_URL }}thumbnails/{{ video.thumbnail }}"/>
         {% else %}
-            
+
         {% endif %}
         <div class="caption">
           <h5>{{ video.page_title }}</h5>
           <div class="btn-group">
             <a class="btn btn-mini" href="{% url play filename=video.filename %}">Play</a>
             <a class="btn btn-mini" href="{% url convert video_id=video.id %}">Convert</a>
+            <a class="btn btn-mini" href="{% url delete video_id=video.id %}">Delete</a>
           </div>
         </div>
       </div>
