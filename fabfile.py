@@ -17,6 +17,7 @@ RSYNC_EXCLUDE = (
     'reload',
     'save-fixtures',
     'media/*',
+    'static',
 )
 
 # Structure of the project on the server

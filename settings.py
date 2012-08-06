@@ -131,8 +131,6 @@ INSTALLED_APPS = (
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_ACTIVATION_DAYS = 2
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = "/tmp/megascops-email/"
 EMAIL_SUBJECT_PREFIX = "[Megascops]"
 DEFAULT_FROM_EMAIL = "strider@strycore.com"
 
@@ -148,17 +146,23 @@ LOGGING = {
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'include_html': True,
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': join(PROJECT_PATH, 'megascops.log')
+        },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins', 'file'],
             'level': 'ERROR',
             'propagate': True,
         },
         'video': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins', 'file'],
             'level': 'ERROR',
             'propagate': True,
         },
