@@ -1,8 +1,9 @@
 from os.path import join
+from fabric import utils
 from fabric.api import run, env, local, sudo, put, require, cd
 from fabric.contrib.project import rsync_project
 
-from local_settings import REMOTE_PATH, REMOTE_HOST, PROJECT_NAME
+from fabsettings import REMOTE_PATH, REMOTE_HOST, PROJECT_NAME
 
 RSYNC_EXCLUDE = (
     '.git',
@@ -29,6 +30,7 @@ RSYNC_EXCLUDE = (
 env.home = REMOTE_PATH
 env.project = PROJECT_NAME
 
+
 def _setup_path():
     env.root = join(env.home, env.environment)
     env.code_root = join(env.root, env.project)
@@ -49,7 +51,7 @@ def production():
 def touch():
     """Touch wsgi file to trigger reload."""
     require('code_root', provided_by=('staging', 'production'))
-    conf_dir = os.path.join(env.code_root, 'config')
+    conf_dir = join(env.code_root, 'config')
     with cd(conf_dir):
         run('touch %s.wsgi' % env.project)
 
@@ -112,9 +114,11 @@ def copy_local_settings():
     with cd(env.code_root):
         run('mv local_settings_%(environment)s.py local_settings.py' % env)
 
+
 def collectstatic():
     with cd(env.code_root):
         run('source ../bin/activate; python manage.py collectstatic --noinput')
+
 
 def configtest():
     run("apache2ctl configtest")
