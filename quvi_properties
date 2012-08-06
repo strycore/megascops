@@ -1,9 +1,0 @@
->>> q = quvi.Quvi()
->>> q.parse("http://www.youtube.com/watch?v=6peOjOrcURA")
->>> q.getproperties()
-{'hostid': 'youtube', 
-'mediaid': '6peOjOrcURA', 
-'mediacontenttype': 'video/x-flv', 
-'mediaurl': 'http://o-o.preferred.par08s01.v9.lscache7.c.youtube.com/videoplayback?sparams=algorithm%2Cburst%2Ccp%2Cfactor%2Cid%2Cip%2Cipbits%2Citag%2Csource%2Cexpire&fexp=900034%2C906357%2C905027%2C908617&algorithm=throttle-factor&itag=5&ip=85.0.0.0&burst=40&sver=3&signature=B6F8BDE017FD9A54E964A10727DC2659E58D4F15.25597773EA7AD5F61A423C92E0533BE404AC1766&source=youtube&expire=1331869275&key=yt1&ipbits=8&factor=1.25&cp=U0hSRlhRV19MT0NOMl9QS0FDOjk3enJpWlMyWTlK&id=ea978e8ceadc5110',
-'format': 'default', 
-'filesuffix': 'flv', 'pagetitle': 'Ubuntu 12.04 - Software Center integration with the Unity launcher', 'mediacontentlength': 4699354667535040512, 'pageurl': 'http://www.youtube.com/watch?v=6peOjOrcURA', 'responsecode': 200, 'mediaduration': 83000.0, 'starttime': '', 'mediathumbnail': 'http://i3.ytimg.com/vi/6peOjOrcURA/default.jpg'}
