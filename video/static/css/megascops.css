@@ -4027,6 +4027,15 @@ form {
 input {
   margin-top: 5px;
 }
+.errorlist {
+  border: 1px solid #2e1219;
+  color: #823348;
+  background-color: #f5d2db;
+  padding: 20px;
+}
+.errorlist li {
+  list-style-type: none;
+}
 input[type="text"],
 input[type="password"] {
   border: 1px solid #444;
