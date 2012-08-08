@@ -7,3 +7,4 @@ config/local_settings_staging.py
 /PYSMELLTAGS
 /PYSMELLTAGS.stdlib
 tags
+megascops.log
