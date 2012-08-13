@@ -110,6 +110,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    #'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    #'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
 )
 
 INSTALLED_APPS = (
@@ -123,12 +127,49 @@ INSTALLED_APPS = (
     'compressor',
     'south',
     'django_gearman',
+    'social_auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'video',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    #'social_auth.backends.facebook.FacebookBackend',
+    #'social_auth.backends.google.GoogleOAuthBackend',
+    #'social_auth.backends.google.GoogleOAuth2Backend',
+    #'social_auth.backends.google.GoogleBackend',
+    #'social_auth.backends.yahoo.YahooBackend',
+    #'social_auth.backends.browserid.BrowserIDBackend',
+    #'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    #'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    #'social_auth.backends.contrib.orkut.OrkutBackend',
+    #'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    #'social_auth.backends.contrib.github.GithubBackend',
+    #'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    #'social_auth.backends.contrib.live.LiveBackend',
+    #'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    #'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    #'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TWITTER_CONSUMER_KEY = 'please put this in Local_settings.py'
+TWITTER_CONSUMER_SECRET = 'please put this in local_settings.py'
+
+LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
+LOGIN_ERROR_URL = "/accounts/login/error/"
+#SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
+#SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'
+#SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'
+#SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account-disconnected-redirect-url/'
+#SOCIAL_AUTH_BACKEND_ERROR_URL = '/new-error-url/'
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+SOCIAL_AUTH_EXPIRATION = 'expires'
+SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
 ACCOUNT_ACTIVATION_DAYS = 2
 
 EMAIL_SUBJECT_PREFIX = "[Megascops]"
@@ -157,6 +198,11 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
+            'handlers': ['mail_admins', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.contrib.messages': {
             'handlers': ['mail_admins', 'file'],
             'level': 'ERROR',
             'propagate': True,

@@ -1,3 +1,5 @@
+{% load url from future %}
+
 {% if videos %}
 
 <div class="span12">
@@ -13,9 +15,9 @@
         <div class="caption">
           <h5>{{ video.page_title }}</h5>
           <div class="btn-group">
-            <a class="btn btn-mini" href="{% url play filename=video.filename %}">Play</a>
-            <a class="btn btn-mini" href="{% url convert video_id=video.id %}">Convert</a>
-            <a class="btn btn-mini" href="{% url delete video_id=video.id %}">Delete</a>
+            <a class="btn btn-mini" href="{% url 'play' filename=video.filename %}">Play</a>
+            <a class="btn btn-mini" href="{% url 'convert' video_id=video.id %}">Convert</a>
+            <a class="btn btn-mini" href="{% url 'delete' video_id=video.id %}">Delete</a>
           </div>
         </div>
       </div>

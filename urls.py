@@ -8,6 +8,9 @@ import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'', include('social_auth.urls')),
+    url(r'^accounts/login/error/$', direct_to_template,
+        {'template': 'registration/login_error.html'}, name='login_error'),
     url(r'^accounts/', include('registration.urls')),
     url(r'^about/$', direct_to_template, {'template': 'about.html'}),
     url(r'^contact/', include('contact_form.urls')),
