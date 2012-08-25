@@ -1,11 +1,11 @@
 """Megascops core views"""
 #pylint: disable=E1101
+import time
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-import time
 
 from django_gearman import GearmanClient
 from video.models import Video

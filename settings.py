@@ -214,8 +214,7 @@ LOGGING = {
         },
     }
 }
-
 try:
-    from local_settings import *
+    import local_settings
 except ImportError:
     pass
