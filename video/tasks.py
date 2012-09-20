@@ -1,16 +1,19 @@
+# -*- coding: utf8 -*-
+
 import os
-#import json
 import urllib
-#import urlparse
 import traceback
+
 from datetime import datetime
 from subprocess import Popen
+from quvi import Quvi
+
 from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
 from django_gearman import GearmanClient
-from quvi import Quvi
+from django.conf import settings
+
 from video.models import Video
-import settings
 
 
 def get_video_info(url):

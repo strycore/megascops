@@ -1,13 +1,13 @@
 Megascops
 =========
 
- Dependencies
- ------------
+Dependencies
+------------
 
- Install python dependencies in a virtualenv using the bootstrap.py script
+Install python dependencies in a virtualenv using the bootstrap.py script
 
- There are some other non-python dependencies which are required,
- these must be installed before running the bootstrap script.
+There are some other non-python dependencies which are required,
+these must be installed before running the bootstrap script.
 
  * gearman
    sudo apt-get install gearman

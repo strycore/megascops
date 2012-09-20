@@ -1,10 +1,10 @@
-django
-gearman==2.0.2
+Django
 django_compressor
-south
+South
 Cython
--e git://github.com/metal3d/python-libquvi.git#egg=quvi
+celery
+django-celery
 -e hg+http://bitbucket.org/ubernostrum/django-contact-form/#egg=django-contact-form
--e git://github.com/fwenzel/django-gearman.git#egg=django-gearman
 -e git+https://github.com/omab/django-social-auth.git#egg=django-social-auth
 -e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+-e git://github.com/metal3d/python-libquvi.git#egg=quvi
