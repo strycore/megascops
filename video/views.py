@@ -1,14 +1,17 @@
 """Megascops core views"""
+
 #pylint: disable=E1101
+
 import time
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
+
 from django.http import Http404
+from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 
-from django_gearman import GearmanClient
-from video.models import Video
+from models import Video
+from tasks import fetch_video, encode
 
 
 def index(request):
@@ -45,8 +48,7 @@ def importvideo(request):
         video.page_url = video_url
         video.state = state
         video.save()
-        client = GearmanClient()
-        client.dispatch_background_task('video.get_video_job', video.id)
+        fetch_video.delay(video.id)
     else:
         state = video.state
 
@@ -68,8 +70,7 @@ def convert(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.state = "CONVERTING"
     video.save()
-    client = GearmanClient()
-    client.dispatch_background_task('video.encode', video.id)
+    encode.delay(video.id)
     return redirect("/")
 
 

@@ -1,4 +1,4 @@
-from megascops.video.models import Video, Profile
+from video.models import Video, Profile
 
 from django.contrib import admin
 

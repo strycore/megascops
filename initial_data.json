@@ -1,20 +1,18 @@
 [
   {
     "fields": {
-      "date_joined": "2012-03-04 03:43:33", 
-      "email": "strider@strycore.com", 
-      "first_name": "", 
-      "groups": [], 
-      "is_active": true, 
-      "is_staff": true, 
-      "is_superuser": true, 
-      "last_login": "2012-04-06 00:56:31", 
-      "last_name": "", 
-      "password": "sha1$32f9b$3acaf146f1470af84cdf46e02e8b7f4c3fd8eed2", 
-      "user_permissions": [], 
+      "email": "strider@strycore.com",
+      "first_name": "",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_name": "",
+      "password": "sha1$32f9b$3acaf146f1470af84cdf46e02e8b7f4c3fd8eed2",
+      "user_permissions": [],
       "username": "strider"
-    }, 
-    "model": "auth.user", 
+    },
+    "model": "auth.user",
     "pk": 1
   }
 ]

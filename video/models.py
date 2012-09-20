@@ -7,6 +7,7 @@ import settings
 
 from registration.signals import user_registered
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User)
     size_quota = models.IntegerField(default=settings.DEFAULT_SIZE_QUOTA)
@@ -19,8 +20,9 @@ class Profile(models.Model):
 class VideoManager(models.Manager):
     def get_query_set(self):
         return super(VideoManager, self).get_query_set().filter(
-                state__in=["READY", "DOWNLOAD_FINISHED"]
-            )
+            state__in=["READY", "DOWNLOAD_FINISHED"]
+        )
+
 
 class Video(models.Model):
     profile = models.ForeignKey(Profile)
@@ -32,7 +34,7 @@ class Video(models.Model):
     file_suffix = models.CharField(max_length=10)
     state = models.CharField(max_length=24)
     thumbnail = models.FileField(upload_to=os.path.join(settings.MEDIA_ROOT,
-                                                        'thumbnails/'), 
+                                                        'thumbnails/'),
                                  null=True)
     progress = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
@@ -42,6 +44,7 @@ class Video(models.Model):
 
     def __unicode__(self):
         return "[%s] %s" % (self.state, self.page_url)
+
 
 def user_created(sender, user, request, **kwargs):
     profile, created = Profile.objects.get_or_create(user=user)

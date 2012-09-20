@@ -7,10 +7,9 @@ import traceback
 from datetime import datetime
 from subprocess import Popen
 from quvi import Quvi
+from celery import task
 
-from django_gearman.decorators import gearman_job
 from django.template.defaultfilters import slugify
-from django_gearman import GearmanClient
 from django.conf import settings
 
 from video.models import Video
@@ -40,8 +39,8 @@ class VideoDownloader(object):
         urllib.urlretrieve(url, dest_path, self._download_monitor)
 
 
-@gearman_job(queue="video-downloader")
-def get_video_job(video_id):
+@task
+def fetch_video(video_id):
     """Gearman job to download the video.
 
     The video parameter is an object of type Video, as defined in
@@ -83,8 +82,8 @@ def get_video_job(video_id):
         video.save()
 
         # Launch video encoding
-        client = GearmanClient()
-        client.dispatch_background_task('video.encode', video.id)
+        #client = GearmanClient()
+        #client.dispatch_background_task('video.encode', video.id)
 
     except Exception, e:
         print "error"
@@ -92,7 +91,7 @@ def get_video_job(video_id):
         print traceback.format_exc()
 
 
-@gearman_job(queue="video-downloader")
+@task
 def encode(video_id):
     """Encode video using avconv"""
     print "convert in progress"
@@ -130,12 +129,3 @@ def encode(video_id):
     except Exception, e:
         print "convert error"
         print e
-
-
-def main():
-    url = "http://www.youtube.com/watch?v=nxhgP6xsrsY"
-    info = get_video_info(url)
-    print info
-
-if __name__ == "__main__":
-    main()
