@@ -1,9 +1,9 @@
 import os
-from django.db import models
-from django.contrib.auth.models import User
 from datetime import datetime
 
-import settings
+from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
 
 from registration.signals import user_registered
 

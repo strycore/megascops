@@ -9,9 +9,6 @@ Install python dependencies in a virtualenv using the bootstrap.py script
 There are some other non-python dependencies which are required,
 these must be installed before running the bootstrap script.
 
- * gearman
-   sudo apt-get install gearman
-
  * quvi
    sudo apt-get build-dep libquvi
    sudo apt-get install libtool gengetopt lua5.1 liblua5.1-0-dev

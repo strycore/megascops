@@ -3,8 +3,6 @@ from fabric import utils
 from fabric.api import run, env, local, sudo, put, require, cd
 from fabric.contrib.project import rsync_project
 
-from fabsettings import REMOTE_PATH, REMOTE_HOST, PROJECT_NAME
-
 RSYNC_EXCLUDE = (
     '.git',
     '.gitignore',
@@ -17,31 +15,24 @@ RSYNC_EXCLUDE = (
     'reload',
     'save-fixtures',
     'media/*',
-    'static',
+    'static/CACHE',
+    'megascops.log'
 )
 
-# Structure of the project on the server
-# /root/path                     <- Home directory of project owner
-#           |
-#           +->staging/             <- Virtualenv specific to staging env
-#                   |
-#                   +->project_name/      <- Root of Django project
-
-
-env.home = REMOTE_PATH
-env.project = PROJECT_NAME
+env.home = "/srv/django"
+env.project = "megascops"
 
 
 def _setup_path():
-    env.root = join(env.home, env.environment)
+    env.root = join(env.home, env.domain)
     env.code_root = join(env.root, env.project)
 
 
 def staging():
     env.user = 'django'
     env.environment = 'staging'
-    env.hosts = [REMOTE_HOST]
-    env.host = REMOTE_HOST
+    env.domain = "megascops.strycore.com"
+    env.hosts = [env.domain]
     _setup_path()
 
 
@@ -61,31 +52,31 @@ def apache_reload():
     sudo('service apache2 reload', shell=False)
 
 
-def test():
-    local("python manage.py test")
-
-
-def initial_setup():
+def setup():
     """Setup virtualenv"""
-    sudo('pip install virtualenv', shell=False)
-    run('mkdir -p %(home)s' % env)
-    run('cd %(home)s; virtualenv --no-site-packages %(environment)s' % env)
+    run('mkdir -p %(root)s' % env)
+    with cd(env.root):
+        run('virtualenv --no-site-packages .')
+
+
+def requirements():
     put('requirements.txt', env.root)
-    run('cd %(root)s ; ' % env + \
-        'source ./bin/activate ; ' + \
-        'pip install -E %(root)s --requirement requirements.txt' % env)
+    with cd(env.root):
+        run('source ./bin/activate && '
+            'pip install Cython && '
+            'pip install --requirement requirements.txt')
 
 
 def update_vhost():
-    local('cp config/%(project)s.conf /tmp' % env)
-    local('sed -i s#%%ROOT%%#%(home)s#g /tmp/%(project)s.conf' % env)
-    local('sed -i s/%%PROJECT%%/%(project)s/g /tmp/%(project)s.conf' % env)
-    local('sed -i s/%%ENV%%/%(environment)s/g /tmp/%(project)s.conf' % env)
-    local('sed -i s/%%DOMAIN%%/%(host)s/g /tmp/%(project)s.conf' % env)
-    put('/tmp/%(project)s.conf' % env, '%(root)s' % env)
-    sudo('cp %(root)s/%(project)s.conf ' % env +\
-         '/etc/apache2/sites-available/%(project)s' % env, shell=False)
-    sudo('a2ensite %(project)s' % env, shell=False)
+    local('cp config/%(project)s.vhost /tmp' % env)
+    local('sed -i s#%%ROOT%%#%(root)s#g /tmp/%(project)s.vhost' % env)
+    local('sed -i s/%%PROJECT%%/%(project)s/g /tmp/%(project)s.vhost' % env)
+    local('sed -i s/%%ENV%%/%(environment)s/g /tmp/%(project)s.vhost' % env)
+    local('sed -i s/%%DOMAIN%%/%(domain)s/g /tmp/%(project)s.vhost' % env)
+    put('/tmp/%(project)s.vhost' % env, '%(root)s' % env)
+    sudo('cp %(root)s/%(project)s.vhost ' % env +
+         '/etc/apache2/sites-available/%(domain)s' % env, shell=False)
+    sudo('a2ensite %(domain)s' % env, shell=False)
 
 
 def rsync():
@@ -99,21 +90,26 @@ def rsync():
     )
 
 
-def reload_data():
-    require('code_root', provided_by=('staging', 'production'))
-    if env.environment == "staging":
-        with cd(env.code_root):
-            run("mkdir -p db")
-            run("rm -f db/*.db")
-            run("source ../bin/activate; python manage.py syncdb --noinput")
-            run("chmod 777 db -R")
-
-
 def copy_local_settings():
     require('code_root', provided_by=('staging', 'production'))
     put('config/local_settings_%(environment)s.py' % env, env.code_root)
     with cd(env.code_root):
-        run('mv local_settings_%(environment)s.py local_settings.py' % env)
+        run('mv local_settings_%(environment)s.py megascops/local_settings.py'
+            % env)
+
+
+def syncdb():
+    require('code_root', provided_by=('stating', 'production'))
+    with cd(env.code_root):
+        run("source ../bin/activate; "
+            "python manage.py syncdb --noinput")
+
+
+def migrate():
+    require('code_root', provided_by=('stating', 'production'))
+    with cd(env.code_root):
+        run("source ../bin/activate; "
+            "python manage.py migrate")
 
 
 def collectstatic():
@@ -121,16 +117,26 @@ def collectstatic():
         run('source ../bin/activate; python manage.py collectstatic --noinput')
 
 
+def fix_perms(user="www-data"):
+    with cd(env.code_root):
+        run("mkdir -p media")
+        run("mkdir -p static")
+        sudo("chown -R %s.%s media" % (user, user))
+        sudo("chown -R %s.%s static" % (user, user))
+        sudo("chown %s.%s megascops.log" % (user, user))
+
+
 def configtest():
-    run("apache2ctl configtest")
+    sudo("apache2ctl configtest")
 
 
 def deploy():
-    #initial_setup()
+    fix_perms(env.user)
+    requirements()
     rsync()
     copy_local_settings()
-    reload_data()
     collectstatic()
     update_vhost()
     configtest()
+    fix_perms()
     apache_reload()

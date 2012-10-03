@@ -8,7 +8,8 @@ from django.http import Http404
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render_to_response, get_object_or_404, \
+        redirect, render
 
 from models import Video
 from tasks import fetch_video, encode
@@ -103,3 +104,7 @@ def livecast(request):
             'timestamp': timestamp
             }, context_instance=RequestContext(request)
     )
+
+
+def webrtc(request):
+    return render(request, "video/webrtc.html")

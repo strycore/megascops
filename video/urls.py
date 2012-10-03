@@ -9,4 +9,5 @@ urlpatterns = patterns('video.views',
     url(r'^play/(?P<filename>[\w\d\-]+)$', 'play', name="play"),
     url(r'^delete/(?P<video_id>[\d]+)/$', 'delete', name='delete'),
     url(r'^livecast/$', 'livecast', name='livecast'),
+    url(r'^webrtc/$', 'webrtc', name='webrtc'),
 )
