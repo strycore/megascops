@@ -9,3 +9,4 @@ config/local_settings_staging.py
 tags
 megascops.log
 PYSMELLTAGS.src
+.ropeproject

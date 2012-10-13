@@ -12,7 +12,7 @@ from django.shortcuts import render_to_response, get_object_or_404, \
         redirect, render
 
 from models import Video
-from tasks import fetch_video, encode
+from tasks import fetch_video, encode_task
 
 
 def index(request):
@@ -71,7 +71,7 @@ def convert(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.state = "CONVERTING"
     video.save()
-    encode.delay(video.id)
+    encode_task.delay(video.id)
     return redirect("/")
 
 

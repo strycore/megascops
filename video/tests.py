@@ -11,8 +11,8 @@ from django.test.client import Client
 
 class SmokeTest(TestCase):
     def setUp(self):
-        self.client = Client()
+        self.browser = Client()
 
     def test_home(self):
-        r = self.client.get('/')
+        r = self.browser.get('/')
         self.assertEqual(r.status_code, 200)

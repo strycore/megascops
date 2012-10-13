@@ -1,3 +1,4 @@
+"""Admin config"""
 from video.models import Video, Profile
 
 from django.contrib import admin
