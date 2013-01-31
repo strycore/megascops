@@ -3,7 +3,7 @@ import urllib
 from quvi import Quvi
 from subprocess import Popen
 from django.conf import settings
-from django.models import Video
+from video.models import Video
 
 
 def get_video_info(url):
