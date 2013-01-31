@@ -7,8 +7,17 @@
 
     WSGIScriptAlias / %ROOT%/%PROJECT%/%PROJECT%/wsgi.py
 
-    ServerName %DOMAIN%
-    ServerAlias www.%DOMAIN%
+    ServerName %PROJECT%.%DOMAIN%
+
+    # Audio
+    AddType audio/ogg                      oga ogg
+    AddType audio/mp4                      m4a f4a f4b
+
+    # Video
+    AddType video/ogg                      ogv
+    AddType video/mp4                      mp4 m4v f4v f4p
+    AddType video/webm                     webm
+    AddType video/x-flv                    flv
 
     <Location "/">
         Order Allow,Deny
@@ -22,6 +31,8 @@
 
     <Location "/media">
         SetHandler None
+        AddType video/webm .webm
+
     </Location>
     Alias /media %ROOT%/%PROJECT%/media
 
