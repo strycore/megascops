@@ -1,19 +1,35 @@
 QUVI_PREFIX=/usr/local
+CELERY_LOGGING_LEVEL="debug"
 
 
 run:
 	./manage.py runserver
 
+worker:
+	./manage.py celery worker --loglevel=${CELERY_LOGGING_LEVEL} -E -Q quvi
+
 clean:
 	rm -rf ./build
 	find . -name "*.pyc" -delete
+
+deps:
+	pip install -r config/requirements.pip
 
 build-deps:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
 		             gengetopt
 
-test:
+test:  clean
 	./manage.py test video
+
+fixtures:
+	./manage.py dumpdata --indent=2 > video/fixtures/initial_data.json
+
+migration:
+	./manage.py schemamigration $(app) --auto
+
+migrate:
+	./manage.py migrate
 
 fetch-quvi:
 	mkdir -p build
@@ -35,9 +51,15 @@ libquvi:
 	
 
 quvi-tool:
-	cd build/quvi-tool; ./autogen.sh
-	cd build/quvi-tool; ./configure
-	cd build/quvi-tool; make
-	cd build/quvi-tool; sudo make install
+	cd build/quvi-tool; \
+		./autogen.sh \
+		./configure \
+		make \
+		sudo make install
+
+quvi-python:
+	cd ${VIRTUAL_ENV}/src/python-quvi; ls; \
+		python setup.py build_ext; \
+		python setup.py install
 
 quvi:	libquvi quvi-scripts quvi-tool
