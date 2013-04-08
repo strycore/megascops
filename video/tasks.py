@@ -8,8 +8,8 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 
 from video.models import Video
-from video.utils import get_video_info, download_thumbnail, VideoDownloader, \
-                        encode_videos
+from video.utils import (get_video_info, download_thumbnail, VideoDownloader,
+                         encode_videos)
 
 
 @task
@@ -18,14 +18,15 @@ def fetch_video(video_id):
 
     The video parameter is an object of type Video, as defined in
     megascops.models.Video """
-    print "Starting download of video %s" % video_id
     video = Video.objects.get(pk=video_id)
     video.state = "FETCHING_INFO"
     video.save()
     vid_info = get_video_info(video.page_url)
-    page_title = vid_info['pagetitle'] if vid_info['pagetitle']\
-                    else "%s video %s" % (vid_info['hostid'],
-                                        str(datetime.now()))
+    page_title = (
+        vid_info['pagetitle']
+        if vid_info['pagetitle']
+        else "%s video %s" % (vid_info['hostid'], str(datetime.now()))
+    )
     video.page_title = page_title
     video.host = vid_info['hostid']
 
@@ -34,8 +35,7 @@ def fetch_video(video_id):
     video.filename = filename
     video.duration = vid_info['mediaduration']
     video.file_suffix = vid_info['filesuffix']
-    dest_file = "%s.%s" % (filename,
-                            vid_info['filesuffix'])
+    dest_file = "%s.%s" % (filename, vid_info['filesuffix'])
     dest_path = os.path.join(settings.MEDIA_ROOT, 'video/', dest_file)
     if vid_info['mediathumbnail']:
         thumbnail = download_thumbnail(vid_info)
