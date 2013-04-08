@@ -6,7 +6,7 @@ PROJECT_ROOT = abspath(dirname(dirname(__file__)))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
-     ('Mathieu Comandon', 'strider@strycore.com'),
+    ('Mathieu Comandon', 'strider@strycore.com'),
 )
 MANAGERS = ADMINS
 SITE_ID = 1
@@ -139,6 +139,10 @@ EMAIL_SUBJECT_PREFIX = "[Megascops]"
 DEFAULT_FROM_EMAIL = "strider@strycore.com"
 
 ## Celery
+CELERY_ROUTES = {
+    'video.tasks.fetch_video': {'queue': 'quvi'},
+    'video.tasks.encode_videos': {'queue': 'quvi'},
+}
 import djcelery
 djcelery.setup_loader()
 
