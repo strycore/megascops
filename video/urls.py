@@ -1,6 +1,7 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
-urlpatterns = patterns('video.views',
+urlpatterns = patterns(
+    'video.views',
     url(r'^$', 'index', name='homepage'),
     url(r'^list/$', 'video_list'),
     url(r'^import/$', 'importvideo', name="import_video"),
