@@ -15,6 +15,9 @@ clean:
 deps:
 	pip install -r config/requirements.pip
 
+deps-system:
+	sudo apt-get install rabbitmq-server
+
 build-deps:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
 		             gengetopt
