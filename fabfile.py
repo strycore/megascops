@@ -2,6 +2,7 @@ from os.path import join
 from fabric import utils
 from fabric.api import run, env, local, sudo, put, require, cd
 from fabric.contrib.project import rsync_project
+from fabric.context_managers import prefix
 
 RSYNC_EXCLUDE = (
     '.git',
@@ -40,6 +41,10 @@ def production():
     utils.abort("No production server defined")
 
 
+def activate():
+    return prefix('. %s/bin/activate' % env.root)
+
+
 def touch():
     """Touch wsgi file to trigger reload."""
     require('code_root', provided_by=('staging', 'production'))
@@ -60,11 +65,10 @@ def setup():
 
 
 def requirements():
-    put('requirements.txt', env.root)
-    with cd(env.root):
-        run('source ./bin/activate && '
-            'pip install Cython && '
-            'pip install --requirement requirements.txt')
+    with cd(env.code_root):
+        with activate():
+            run('pip install Cython')
+            run('pip install -r config/requirements.pip')
 
 
 def update_vhost():
@@ -132,8 +136,8 @@ def configtest():
 
 def deploy():
     fix_perms(env.user)
-    requirements()
     rsync()
+    requirements()
     copy_local_settings()
     collectstatic()
     update_vhost()

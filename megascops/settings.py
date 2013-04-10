@@ -14,6 +14,7 @@ SITE_NAME = "http://megascops.org/"
 ROOT_URLCONF = 'megascops.urls'
 WSGI_APPLICATION = 'megascops.wsgi.application'
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
+ALLOWED_HOSTS = ("megascops.strycore.com", "megascops.org")
 
 ## Databases
 DATABASES = {
@@ -47,7 +48,6 @@ LANGUAGE_CODE = 'en-us'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 ## Static files
 MEDIA_ROOT = join(PROJECT_ROOT, "media")
 MEDIA_URL = "/media/"

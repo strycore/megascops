@@ -7,7 +7,7 @@
 
     WSGIScriptAlias / %ROOT%/%PROJECT%/%PROJECT%/wsgi.py
 
-    ServerName %PROJECT%.%DOMAIN%
+    ServerName %DOMAIN%
 
     # Audio
     AddType audio/ogg                      oga ogg
