@@ -8,6 +8,10 @@ run:
 worker:
 	./manage.py celery worker --loglevel=${CELERY_LOGGING_LEVEL} -E -Q quvi
 
+db:
+	./manage.py syncdb --noinput
+	./manage.py migrate
+
 clean:
 	rm -rf ./build
 	find . -name "*.pyc" -delete
@@ -42,7 +46,7 @@ fetch-quvi:
 
 quvi-scripts:
 	cd build/libquvi-scripts; ./autogen.sh
-	cd build/libquvi-scripts; ./configure
+	cd build/libquvi-scripts; ./configure --with-nsfw
 	cd build/libquvi-scripts; make
 	cd build/libquvi-scripts; sudo make install
 
@@ -51,7 +55,7 @@ libquvi:
 	cd build/libquvi; ./configure
 	cd build/libquvi; make
 	cd build/libquvi; sudo make install
-	
+
 
 quvi-tool:
 	cd build/quvi-tool; \

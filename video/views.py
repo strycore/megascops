@@ -4,31 +4,30 @@
 
 import time
 
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404, \
-        redirect, render
+from django.shortcuts import (render_to_response, get_object_or_404,
+                              redirect, render)
 
-from models import Video
+from models import Video, Profile
 from tasks import fetch_video, encode_task
 
 
 def index(request):
     """Homepage"""
-    videos = Video.ready.all()
-    return render_to_response('index.html', {'videos': videos},
-            context_instance=RequestContext(request))
+    videos = Video.objects.ready()
+    return render(request, 'index.html', {'videos': videos})
 
 
 def video_list(request):
     """List of all videos"""
-    videos = Video.ready.all()
-    return render_to_response('video_list.html', {
+    videos = Video.objects.ready()
+    return render(request, 'video_list.html', {
         'videos': videos
-        }, context_instance=RequestContext(request)
-    )
+    })
 
 
 @login_required
@@ -78,32 +77,33 @@ def convert(request, video_id):
 def play(request, filename):
     """Show a video player for the selected video"""
     video = get_object_or_404(Video, filename=filename)
-    return render_to_response('play.html', {
+    return render(request, 'play.html', {
         'video': video
-        }, context_instance=RequestContext(request)
-    )
+    })
 
 
 @login_required
 def delete(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.delete()
-    # TODO : delete the files
-    return render_to_response('deleted.html', {},
-                              context_instance=RequestContext(request))
+    return render(request, 'deleted.html')
+
+
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    user_profile, _created = Profile.objects.get_or_create(user=user)
+    return render(request, 'user_profile.html', {'user_profile': user_profile})
 
 
 def livecast(request):
     """Experimental livecast"""
     timestamp = int(time.time())
-    return render_to_response(
-        'livecast.html', {
-            'host': 'newport.strycore.com',
-            'webcam_port': '8090',
-            'screencast_port': '8091',
-            'timestamp': timestamp
-            }, context_instance=RequestContext(request)
-    )
+    return render(request, 'livecast.html', {
+        'host': 'newport.strycore.com',
+        'webcam_port': '8090',
+        'screencast_port': '8091',
+        'timestamp': timestamp
+    })
 
 
 def webrtc(request):

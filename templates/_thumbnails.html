@@ -1,32 +1,22 @@
 {% load url from future %}
 
-{% if videos %}
-
 <div class="span12">
-<ul class="thumbnails">
-  {% for video in videos %}
-    <li class="span2">
-      <div class="thumbnail">
-        {% if video.thumbnail %}
-          <img src="{{ MEDIA_URL }}thumbnails/{{ video.thumbnail }}"/>
-        {% else %}
-
-        {% endif %}
-        <div class="caption">
-          <h5>{{ video.page_title }}</h5>
-          <div class="btn-group">
-            <a class="btn btn-mini" href="{% url 'play' filename=video.filename %}">Play</a>
-            <a class="btn btn-mini" href="{% url 'convert' video_id=video.id %}">Convert</a>
-            <a class="btn btn-mini" href="{% url 'delete' video_id=video.id %}">Delete</a>
+  {% if videos %}
+  <ul class="thumbnails">
+    {% for video in videos %}
+      <li class="span3">
+          <a class="thumbnail" href="{% url "play" filename=video.filename %}">
+          <img title="{{ video.page_title }}" src="{{ MEDIA_URL }}{{ video.thumbnail }}" >
+          <div class="caption">
+            <strong title="{{ video.page_title }}">{{ video.page_title }}</strong>
           </div>
-        </div>
-      </div>
-    </li>
-  {% endfor %}
-</ul>
+          </a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>
+      No videos available :(
+    </p>
+  {% endif %}
 </div>
-{% else %}
-  <div class="span12">
-    No videos available :(
-  </div>
-{% endif %}

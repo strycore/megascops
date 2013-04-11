@@ -38,8 +38,7 @@ def fetch_video(video_id):
     dest_file = "%s.%s" % (filename, vid_info['filesuffix'])
     dest_path = os.path.join(settings.MEDIA_ROOT, 'video/', dest_file)
     if vid_info['mediathumbnail']:
-        thumbnail = download_thumbnail(vid_info)
-        video.thumbnail = thumbnail
+        video.thumbnail = download_thumbnail(vid_info)
     video.state = "DOWNLOAD_STARTED"
     video.save()
     downloader = VideoDownloader(video_id)

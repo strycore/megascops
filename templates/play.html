@@ -11,11 +11,16 @@
 
   <div class="video-background">
       <video>
-        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.webm" type="video/ogg">  
-        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.mp4" type="video/mp4">  
-        Your browser does not support the <code>video</code> element.  
+        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.webm" type="video/ogg">
+        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.mp4" type="video/mp4">
+        Your browser does not support the <code>video</code> element.
       </video>
   </div>
+            <div class="btn-group">
+              <a class="btn btn-mini" href="{% url 'play' filename=video.filename %}">Play</a>
+              <a class="btn btn-mini" href="{% url 'convert' video_id=video.id %}">Convert</a>
+              <a class="btn btn-mini" href="{% url 'delete' video_id=video.id %}">Delete</a>
+            </div>
 {% endblock %}
 
 {% block javascript %}

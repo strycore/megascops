@@ -32,13 +32,16 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+
     'registration',
     'compressor',
     'south',
     'djcelery',
     'social_auth',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
+    'sorl.thumbnail',
+
     'video',
 )
 

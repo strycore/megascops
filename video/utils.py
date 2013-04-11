@@ -1,24 +1,24 @@
 import os
 import urllib
-from quvi import Quvi
+from quvi import get_properties_best_quality  # , Quvi
 from subprocess import Popen
 from django.conf import settings
 from video.models import Video
 
 
 def get_video_info(url):
-    quvi = Quvi()
-    quvi.parse(url)
-    vid_info = quvi.get_properties()
-    return vid_info
+    #quvi = Quvi()
+    #quvi.parse(url)
+    #vid_info = quvi.get_properties()
+    #return vid_info
+    return get_properties_best_quality(url)
 
 
 def download_thumbnail(vid_info):
     thumbnail = "%s%s.jpg" % (vid_info['hostid'], vid_info['mediaid'])
-    thumb_path = os.path.join(settings.MEDIA_ROOT,
-                            'thumbnails/', thumbnail)
+    thumb_path = os.path.join(settings.MEDIA_ROOT, 'thumbnails/', thumbnail)
     urllib.urlretrieve(vid_info['mediathumbnail'], thumb_path)
-    return thumbnail
+    return thumb_path
 
 
 def encode_videos(video):

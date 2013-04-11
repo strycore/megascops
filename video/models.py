@@ -17,10 +17,21 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def viewable_videos(self):
+        return self.video_set.ready()
+
+    def unviewable_videos(self):
+        return self.video_set.pending()
+
 
 class VideoManager(models.Manager):
-    def get_query_set(self):
-        return super(VideoManager, self).get_query_set().filter(
+    def ready(self):
+        return self.get_query_set().filter(
+            state__in=["READY", "DOWNLOAD_FINISHED"]
+        )
+
+    def pending(self):
+        return self.get_query_set().exclude(
             state__in=["READY", "DOWNLOAD_FINISHED"]
         )
 
@@ -39,11 +50,10 @@ class Video(models.Model):
     progress = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
 
-    objects = models.Manager()
-    ready = VideoManager()
+    objects = VideoManager()
 
     def __unicode__(self):
-        return "[%s] %s" % (self.state, self.page_url)
+        return "[%s] %s" % (self.state, self.page_title or self.page_url)
 
 
 def user_created(sender, user, request, **kwargs):

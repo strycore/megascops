@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+  {{ user_profile.user.username }}'s videos
+  <ul>
+    {% for video in user_profile.viewable_videos %}
+    <li>
+    <a href="{% url 'play' filename=video.filename %}">
+    {{ video }}
+    </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <h2>Pending videos</h2>
+  <ul>
+    {% for video in user_profile.unviewable_videos %}
+    <li>{{ video }}</li>
+    {% endfor %}
+  </ul>
+
+</div>
+  
+{% endblock %}
