@@ -53,7 +53,7 @@ class Video(models.Model):
     objects = VideoManager()
 
     def __unicode__(self):
-        return "[%s] %s" % (self.state, self.page_title or self.page_url)
+        return "%s" % (self.page_title or self.page_url or self.id)
 
 
 def user_created(sender, user, request, **kwargs):

@@ -66,6 +66,10 @@
     // when this player starts, it will pause other players
     pauseOtherPlayers: true,
     // array of keyboard commands
-    keyActions: []});
+    keyActions: [],
+    error: function () {
+      alert("Error while loading video");
+    }
+  });
 </script>
 {% endblock %}

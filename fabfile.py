@@ -83,6 +83,15 @@ def update_vhost():
     sudo('a2ensite %(domain)s' % env, shell=False)
 
 
+def update_celeryd():
+    local('cp %(code_root)s/config/megascops-celeryd /tmp' % env)
+    local('sed -i s#%%ROOT%%#%(root)s#g /tmp/celeryd' % env)
+    local('sed -i s#%%USER%%#%(user)s#g /tmp/celeryd' % env)
+    put('/tmp/celeryd', '%(code_root)s/config/' % env)
+    sudo('cp %(root)s/config/megascops-celeryd /etc/default/megascops-celeryd'
+         % env, shell=False)
+
+
 def rsync():
     require('root', provided_by=('staging', 'production'))
     extra_opts = '--omit-dir-times'
@@ -141,6 +150,7 @@ def deploy():
     copy_local_settings()
     collectstatic()
     update_vhost()
+    update_celeryd()
     configtest()
     fix_perms()
     apache_reload()

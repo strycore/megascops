@@ -16,9 +16,10 @@ def get_video_info(url):
 
 def download_thumbnail(vid_info):
     thumbnail = "%s%s.jpg" % (vid_info['hostid'], vid_info['mediaid'])
-    thumb_path = os.path.join(settings.MEDIA_ROOT, 'thumbnails/', thumbnail)
+    thumb_rel_path = os.path.join('thumbnails/', thumbnail)
+    thumb_path = os.path.join(settings.MEDIA_ROOT, thumb_rel_path)
     urllib.urlretrieve(vid_info['mediathumbnail'], thumb_path)
-    return thumb_path
+    return thumb_rel_path
 
 
 def encode_videos(video):
@@ -42,7 +43,7 @@ def launch_encoder(input_file, output_file, codec="", options=""):
         os.remove(output_file)
     params = {"input": input_file, "output": output_file,
               "codec": codec, "options": options}
-    print cmd % params
+    #print cmd % params
     Popen(cmd % params, shell=True).communicate()
 
 
@@ -54,7 +55,7 @@ class VideoDownloader(object):
     def _download_monitor(self, piece, block_size, total_size):
         bytes_downloaded = piece * block_size
         progress = bytes_downloaded / (total_size * 1.0)
-        print "%d / %d " % (bytes_downloaded, total_size)
+        #print "%d / %d " % (bytes_downloaded, total_size)
         if piece % 100 == 0:
             self.video.progress = progress * 100
             self.video.save()

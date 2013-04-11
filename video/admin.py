@@ -1,7 +1,11 @@
 """Admin config"""
 from video.models import Video, Profile
-
 from django.contrib import admin
 
-admin.site.register(Video)
+
+class VideoAdmin(admin.ModelAdmin):
+    model = Video
+    list_display = ("__unicode__", "profile", "state", "host")
+
+admin.site.register(Video, VideoAdmin)
 admin.site.register(Profile)
