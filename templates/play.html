@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block stylesheet %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/mediaelementplayer.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="{{ STATIC_URL }}mediaelement/mediaelementplayer.css" type="text/css" media="screen" />
 {% endblock %}
 {% block content %}
   <h1>{{ video.page_title }}</h1>
@@ -10,7 +10,7 @@
   </section>
 
   <div class="video-background">
-      <video>
+      <video width=720 height=480>
         <source src="{{ MEDIA_URL }}video/{{ video.filename }}.webm" type="video/ogg">
         <source src="{{ MEDIA_URL }}video/{{ video.filename }}.mp4" type="video/mp4">
         Your browser does not support the <code>video</code> element.
@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/mediaelement-and-player.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}mediaelement/mediaelement-and-player.js"></script>
 <script type="text/javascript" charset="utf-8">
   $('video').mediaelementplayer({
     // if the <video width> is not specified, this is the default
