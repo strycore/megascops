@@ -16,13 +16,13 @@ from tasks import fetch_video, encode_task
 
 def index(request):
     """Homepage"""
-    videos = Video.objects.ready()
+    videos = Video.objects.ready().filter(private=False)
     return render(request, 'index.html', {'videos': videos})
 
 
 def video_list(request):
     """List of all videos"""
-    videos = Video.objects.ready()
+    videos = Video.objects.ready().filter(private=False)
     return render(request, 'video_list.html', {
         'videos': videos
     })

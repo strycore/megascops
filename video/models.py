@@ -50,6 +50,7 @@ class Video(models.Model):
     thumbnail = models.FileField(upload_to='thumbnails', null=True)
     progress = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(default=datetime.now)
+    private = models.BooleanField(default=False)
 
     objects = VideoManager()
 
