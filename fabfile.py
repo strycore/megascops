@@ -53,10 +53,6 @@ def touch():
         run('touch %s.wsgi' % env.project)
 
 
-def apache_reload():
-    sudo('service apache2 reload', shell=False)
-
-
 def setup():
     """Setup virtualenv"""
     run('mkdir -p %(root)s' % env)
@@ -84,12 +80,13 @@ def update_vhost():
 
 
 def update_celeryd():
-    local('cp %(code_root)s/config/megascops-celeryd /tmp' % env)
-    local('sed -i s#%%ROOT%%#%(root)s#g /tmp/celeryd' % env)
-    local('sed -i s#%%USER%%#%(user)s#g /tmp/celeryd' % env)
-    put('/tmp/celeryd', '%(code_root)s/config/' % env)
-    sudo('cp %(root)s/config/megascops-celeryd /etc/default/megascops-celeryd'
+    local('cp config/megascops-celeryd /tmp' % env)
+    local('sed -i s#%%ROOT%%#%(root)s#g /tmp/megascops-celeryd' % env)
+    local('sed -i s#%%USER%%#%(user)s#g /tmp/megascops-celeryd' % env)
+    put('/tmp/megascops-celeryd', '%(code_root)s/config/' % env)
+    sudo('cp %(code_root)s/config/megascops-celeryd /etc/default/megascops-celeryd'
          % env, shell=False)
+    local("rm /tmp/megascops-celeryd")
 
 
 def rsync():
@@ -143,14 +140,20 @@ def configtest():
     sudo("apache2ctl configtest")
 
 
+def service_restart():
+    sudo('service apache2 reload', shell=False)
+    sudo('/etc/init.d/megascops-celeryd restart')
+
+
 def deploy():
     fix_perms(env.user)
     rsync()
     requirements()
     copy_local_settings()
     collectstatic()
+    migrate()
     update_vhost()
     update_celeryd()
     configtest()
     fix_perms()
-    apache_reload()
+    service_restart()

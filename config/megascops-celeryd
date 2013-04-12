@@ -1,14 +1,14 @@
-CELERYD_NODES="w1"
+CELERYD_NODES="m1"
 
 CELERYD_CHDIR="%ROOT%/megascops"
 
-ENV_PYTHON="%ROOT%/venv/bin/python"
+ENV_PYTHON="%ROOT%/bin/python"
 
 CELERYD_MULTI="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryd_multi"
 
 CELERYCTL="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryctl"
 
-CELERYD_OPTS="--time-limit=600 --concurrency=4"
+CELERYD_OPTS="--time-limit=600 --concurrency=4 -E -Q quvi"
 
 CELERY_CONFIG_MODULE="celeryconfig"
 
@@ -21,4 +21,4 @@ CELERYD_LOG_LEVEL=DEBUG
 CELERYD_USER="%USER%"
 CELERYD_GROUP="%USER%"
 
-export DJANGO_SETTINGS_MODULE="settings"
+export DJANGO_SETTINGS_MODULE="megascops.settings"

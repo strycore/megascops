@@ -1,7 +1,5 @@
 """Megascops core views"""
-
 #pylint: disable=E1101
-
 import time
 
 from django.contrib.auth.models import User

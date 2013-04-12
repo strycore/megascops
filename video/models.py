@@ -1,4 +1,5 @@
 """Video models"""
+import os
 from datetime import datetime
 
 from django.db import models
@@ -54,6 +55,19 @@ class Video(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.page_title or self.page_url or self.id)
+
+    def has_file_format(self, file_format):
+        return os.path.exists(os.path.join(
+            settings.MEDIA_ROOT, "video", self.filename + "." + file_format
+        ))
+
+    @property
+    def has_webm(self):
+        return self.has_file_format("webm")
+
+    @property
+    def has_mp4(self):
+        return self.has_file_format("mp4")
 
 
 def user_created(sender, user, request, **kwargs):
