@@ -8,6 +8,8 @@ MySQL-python
 sorl-thumbnail
 ipython
 pylint
+nose
+django-nose
 coverage
 nose-exclude
 nosexcover
