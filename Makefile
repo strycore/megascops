@@ -5,6 +5,9 @@ CELERY_LOGGING_LEVEL="debug"
 run:
 	./manage.py runserver
 
+initvenv:
+	virtualenv venv
+
 worker:
 	./manage.py celery worker --loglevel=${CELERY_LOGGING_LEVEL} -E -Q quvi
 
