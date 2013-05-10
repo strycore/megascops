@@ -47,6 +47,7 @@ def launch_encoder(input_file, output_file, codec="", options=""):
     Popen(cmd % params, shell=True).communicate()
 
 
+# pylint: disable=R0903
 class VideoDownloader(object):
     def __init__(self, video_id):
         self.video_id = video_id

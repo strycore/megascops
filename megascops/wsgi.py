@@ -13,6 +13,7 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
+# pylint: disable=C0103
 import os
 import sys
 import site
@@ -20,9 +21,8 @@ from os.path import dirname, abspath, join
 
 PROJECT = 'megascops'
 PROJECT_ROOT = dirname(dirname(dirname(abspath(__file__))))
-site_packages = join(PROJECT_ROOT,
-                     'lib/python2.7/site-packages')
-site.addsitedir(abspath(site_packages))
+SITE_PACKAGES = join(PROJECT_ROOT, 'lib/python2.7/site-packages')
+site.addsitedir(abspath(SITE_PACKAGES))
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.append(join(PROJECT_ROOT, PROJECT))
 

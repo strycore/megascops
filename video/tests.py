@@ -16,8 +16,8 @@ class SmokeTest(TestCase):
         self.browser = Client()
 
     def test_home(self):
-        r = self.browser.get('/')
-        self.assertEqual(r.status_code, 200)
+        response = self.browser.get('/')
+        self.assertEqual(response.status_code, 200)
 
 
 class TestQuvi(TestCase):

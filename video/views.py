@@ -10,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import (render_to_response, get_object_or_404,
                               redirect, render)
 
-from models import Video, Profile
-from tasks import fetch_video, encode_task
+from .models import Video, Profile
+from .tasks import fetch_video, encode_task
 
 
 def index(request):
@@ -87,7 +87,7 @@ def delete(request, video_id):
     return render(request, 'deleted.html')
 
 
-def user_profile(request, username):
+def user_profile_show(request, username):
     user = get_object_or_404(User, username=username)
     user_profile, _created = Profile.objects.get_or_create(user=user)
     return render(request, 'user_profile.html', {'user_profile': user_profile})

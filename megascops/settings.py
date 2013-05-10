@@ -205,6 +205,7 @@ DEFAULT_VIDEO_QUOTA = 5
 
 ## Local settings
 try:
+    # pylint: disable=F0401
     from local_settings import *
 except ImportError:
     pass

@@ -71,7 +71,8 @@ class Video(models.Model):
         return self.has_file_format("mp4")
 
 
+# pylint: disable=W0613
 def user_created(sender, user, request, **kwargs):
-    profile, created = Profile.objects.get_or_create(user=user)
+    profile, _created = Profile.objects.get_or_create(user=user)
     profile.save()
 user_registered.connect(user_created, dispatch_uid="video.models.user_created")
