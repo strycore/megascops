@@ -77,3 +77,7 @@ quvi-python:
 		python setup.py install
 
 quvi:	libquvi quvi-scripts quvi-tool
+
+npmdeps:
+	sudo npm install coffee-script -g
+	sudo npm install less -g
