@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'registration',
+    'django_nose',
     'compressor',
     'south',
     'djcelery',
@@ -198,6 +199,12 @@ LOGGING = {
         },
     }
 }
+
+## Testing
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = ("--cover-erase", "--with-xunit", "--xunit-file=nosetests.xml",
+             "--with-xcoverage", "--cover-package=video",
+             "--xcoverage-file=coverage.xml")
 
 ## Megascops
 DEFAULT_SIZE_QUOTA = 52428800
