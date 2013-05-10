@@ -21,6 +21,8 @@ clean:
 
 deps:
 	pip install Django
+	cd ${VIRTUAL_ENV}/src/python-quvi && python setup.py build_ext
+	cd ${VIRTUAL_ENV}/src/python-quvi && python setup.py install
 	pip install -r config/requirements.pip
 
 deps-system:
