@@ -40,9 +40,9 @@ migrate:
 
 fetch-quvi:
 	mkdir -p build
-	git clone git://repo.or.cz/libquvi-scripts.git build/libquvi-scripts
-	git clone git://repo.or.cz/libquvi.git build/libquvi
-	git clone git://repo.or.cz/quvi-tool.git build/quvi-tool
+	git clone -b maint-0.4 git://repo.or.cz/libquvi-scripts.git build/libquvi-scripts
+	git clone -b maint-0.4 git://repo.or.cz/libquvi.git build/libquvi
+	git clone -b maint-0.4 git://repo.or.cz/quvi-tool.git build/quvi-tool
 
 quvi-scripts:
 	cd build/libquvi-scripts; ./autogen.sh
@@ -59,9 +59,9 @@ libquvi:
 
 quvi-tool:
 	cd build/quvi-tool; \
-		./autogen.sh \
-		./configure \
-		make \
+		./autogen.sh; \
+		./configure; \
+		make; \
 		sudo make install
 
 quvi-python:
