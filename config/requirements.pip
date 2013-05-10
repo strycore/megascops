@@ -7,6 +7,7 @@ django-celery
 MySQL-python
 sorl-thumbnail
 ipython
+pylint
 -e git+https://github.com/omab/django-social-auth.git#egg=django-social-auth
 -e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
 -e git://github.com/metal3d/python-libquvi.git#egg=python-quvi
