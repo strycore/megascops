@@ -27,7 +27,7 @@ deps:
 	pip install -r config/requirements.pip
 
 deps-system:
-	sudo apt-get install rabbitmq-server
+	sudo apt-get install rabbitmq-server liblua5.1-socket2
 
 build-deps:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
@@ -62,7 +62,7 @@ quvi-scripts:
 	./bootstrap.sh && \
 	./configure --with-nsfw && \
 	make && \
-	sudo make install 
+	sudo make install
 
 libquvi:
 	cd build/libquvi && \

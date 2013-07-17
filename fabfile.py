@@ -11,10 +11,7 @@ RSYNC_EXCLUDE = (
     '.bzrignore',
     '*.pyc',
     '*.db',
-    'fabfile.py',
-    'bootstrap.py',
-    'reload',
-    'save-fixtures',
+    'build/*'
     'media/*',
     'static/CACHE',
     'megascops.log'
@@ -156,4 +153,9 @@ def deploy():
     update_celeryd()
     configtest()
     fix_perms()
+    service_restart()
+
+
+def fastdeploy():
+    rsync()
     service_restart()
