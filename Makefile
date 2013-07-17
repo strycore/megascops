@@ -31,7 +31,7 @@ deps-system:
 
 build-deps:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
-		             gengetopt
+		             gengetopt autopoint asciidoc libproxy-dev
 
 test:  clean
 	./manage.py test video
@@ -45,38 +45,46 @@ migration:
 migrate:
 	./manage.py migrate
 
-fetch-quvi:
+fetch-quvi-0.4:
 	mkdir -p build
 	git clone -b maint-0.4 git://repo.or.cz/libquvi-scripts.git build/libquvi-scripts
 	git clone -b maint-0.4 git://repo.or.cz/libquvi.git build/libquvi
 	git clone -b maint-0.4 git://repo.or.cz/quvi-tool.git build/quvi-tool
 
+fetch-quvi:
+	mkdir -p build
+	git clone git://repo.or.cz/libquvi-scripts.git build/libquvi-scripts
+	git clone git://repo.or.cz/libquvi.git build/libquvi
+	git clone git://repo.or.cz/quvi-tool.git build/quvi-tool
+
 quvi-scripts:
-	cd build/libquvi-scripts; ./autogen.sh
-	cd build/libquvi-scripts; ./configure --with-nsfw
-	cd build/libquvi-scripts; make
-	cd build/libquvi-scripts; sudo make install
+	cd build/libquvi-scripts && \
+	./bootstrap.sh && \
+	./configure --with-nsfw && \
+	make && \
+	sudo make install 
 
 libquvi:
-	cd build/libquvi; ./autogen.sh
-	cd build/libquvi; ./configure
-	cd build/libquvi; make
-	cd build/libquvi; sudo make install
+	cd build/libquvi && \
+	./bootstrap.sh && \
+	./configure && \
+	make && \
+	sudo make install
 
 
 quvi-tool:
-	cd build/quvi-tool; \
-		./autogen.sh; \
-		./configure; \
-		make; \
-		sudo make install
+	cd build/quvi-tool && \
+	./bootstrap.sh && \
+	./configure && \
+	make && \
+	sudo make install
 
 quvi-python:
 	cd ${VIRTUAL_ENV}/src/python-quvi; ls; \
 		python setup.py build_ext; \
 		python setup.py install
 
-quvi:	libquvi quvi-scripts quvi-tool
+quvi:	quvi-scripts libquvi quvi-tool
 
 npmdeps:
 	sudo npm install coffee-script -g
