@@ -9,3 +9,6 @@ tags
 megascops.log
 PYSMELLTAGS.src
 .ropeproject
+.coverage
+coverage.xml
+nosetests.xml
