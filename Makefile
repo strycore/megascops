@@ -31,7 +31,8 @@ deps-system:
 
 build-deps:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
-		             gengetopt autopoint asciidoc libproxy-dev
+		             gengetopt autopoint asciidoc libproxy-dev \
+			     libjson-glib-dev libglib2.0-dev libxml2-dev
 
 test:  clean
 	./manage.py test video
@@ -62,6 +63,7 @@ quvi-scripts:
 	./bootstrap.sh && \
 	./configure --with-nsfw && \
 	make && \
+	sudo make uninstall && \
 	sudo make install
 
 libquvi:
@@ -69,6 +71,7 @@ libquvi:
 	./bootstrap.sh && \
 	./configure && \
 	make && \
+	sudo make uninstall && \
 	sudo make install
 
 
@@ -77,6 +80,7 @@ quvi-tool:
 	./bootstrap.sh && \
 	./configure && \
 	make && \
+	sudo make uninstall && \
 	sudo make install
 
 quvi-python:

@@ -7,10 +7,6 @@ from video.models import Video
 
 
 def get_video_info(url):
-    #quvi = Quvi()
-    #quvi.parse(url)
-    #vid_info = quvi.get_properties()
-    #return vid_info
     return get_properties_best_quality(url)
 
 
