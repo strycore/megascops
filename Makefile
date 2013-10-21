@@ -20,10 +20,6 @@ clean:
 	find . -name "*.pyc" -delete
 
 deps:
-	pip install Django
-	pip install Cython
-	cd ${VIRTUAL_ENV}/src/python-quvi && python setup.py build_ext
-	cd ${VIRTUAL_ENV}/src/python-quvi && python setup.py install
 	pip install -r config/requirements.pip
 
 deps-system:
