@@ -6,8 +6,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
-from registration.signals import user_registered
-
 
 class Profile(models.Model):
     """Profile associated with a user"""
@@ -69,10 +67,3 @@ class Video(models.Model):
     @property
     def has_mp4(self):
         return self.has_file_format("mp4")
-
-
-# pylint: disable=W0613
-def user_created(sender, user, request, **kwargs):
-    profile, _created = Profile.objects.get_or_create(user=user)
-    profile.save()
-user_registered.connect(user_created, dispatch_uid="video.models.user_created")
