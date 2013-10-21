@@ -146,7 +146,6 @@ def deploy():
     fix_perms(env.user)
     rsync()
     requirements()
-    copy_local_settings()
     collectstatic()
     migrate()
     update_vhost()

@@ -1,13 +1,17 @@
 import os
+import json
 import urllib
-from quvi import get_properties_best_quality  # , Quvi
-from subprocess import Popen
+import subprocess
 from django.conf import settings
 from video.models import Video
 
 
-def get_video_info(url):
-    return get_properties_best_quality(url)
+def get_streams(url):
+    output = subprocess.Popen(['quvi', 'dump', '--print-streams',
+                               '--print-format', 'json', url],
+                              stdout=subprocess.PIPE).communicate()[0]
+    json_output = json.loads(output)
+    return json_output['quvi']['media']['streams']
 
 
 def download_thumbnail(vid_info):
@@ -39,8 +43,7 @@ def launch_encoder(input_file, output_file, codec="", options=""):
         os.remove(output_file)
     params = {"input": input_file, "output": output_file,
               "codec": codec, "options": options}
-    #print cmd % params
-    Popen(cmd % params, shell=True).communicate()
+    subprocess.Popen(cmd % params, shell=True).communicate()
 
 
 # pylint: disable=R0903
