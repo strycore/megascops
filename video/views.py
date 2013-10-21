@@ -63,9 +63,12 @@ def refresh(request, video_id):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def convert(request, video_id):
     """Convert a video to html5 format"""
     video = get_object_or_404(Video, pk=video_id)
+    if video.user != request.user:
+        raise Http404
     video.state = "CONVERTING"
     video.save()
     encode_task.delay(video.id)

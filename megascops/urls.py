@@ -1,4 +1,4 @@
-# pylint: disable=C0103
+# pylint: disable=C0103, E1120
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
