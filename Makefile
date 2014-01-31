@@ -20,7 +20,6 @@ clean:
 	find . -name "*.pyc" -delete
 
 deps:
-	pip install Django
 	pip install -r config/requirements.pip
 
 deps-system:

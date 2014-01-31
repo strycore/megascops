@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 
 from video.models import Video
-from video.utils import (get_video_info, download_thumbnail, VideoDownloader,
+from video.utils import (get_streams, download_thumbnail, VideoDownloader,
                          encode_videos)
 
 
@@ -21,7 +21,7 @@ def fetch_video(video_id):
     video = Video.objects.get(pk=video_id)
     video.state = "FETCHING_INFO"
     video.save()
-    vid_info = get_video_info(video.page_url)
+    vid_info = get_streams(video.page_url)
     page_title = (
         vid_info['pagetitle']
         if vid_info['pagetitle']
