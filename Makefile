@@ -21,18 +21,16 @@ clean:
 
 deps:
 	pip install Django
-	pip install Cython
-	cd ${VIRTUAL_ENV}/src/python-quvi && python setup.py build_ext
-	cd ${VIRTUAL_ENV}/src/python-quvi && python setup.py install
 	pip install -r config/requirements.pip
 
 deps-system:
-	sudo apt-get install rabbitmq-server liblua5.1-socket2
+	sudo apt-get install rabbitmq-server liblua5.1-socket2 lua-expat
 
 build-deps:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
-		             gengetopt autopoint asciidoc libproxy-dev \
-			     libjson-glib-dev libglib2.0-dev libxml2-dev
+		             autoconf gengetopt autopoint asciidoc \
+			     libproxy-dev libjson-glib-dev libglib2.0-dev \
+			     libxml2-dev
 
 test:  clean
 	./manage.py test video
