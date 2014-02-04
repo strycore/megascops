@@ -9,12 +9,9 @@ ADMINS = (
     ('Mathieu Comandon', 'strider@strycore.com'),
 )
 MANAGERS = ADMINS
-SITE_ID = 1
-SITE_NAME = "http://megascops.org/"
 ROOT_URLCONF = 'megascops.urls'
 WSGI_APPLICATION = 'megascops.wsgi.application'
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
-ALLOWED_HOSTS = ("megascops.strycore.com", "megascops.org")
 
 ## Databases
 DATABASES = {
@@ -47,9 +44,7 @@ INSTALLED_APPS = (
 ## Localization
 TIME_ZONE = 'Europe/Paris'
 LANGUAGE_CODE = 'en-us'
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
+
 ## Static files
 MEDIA_ROOT = join(PROJECT_ROOT, "media")
 MEDIA_URL = "/media/"
@@ -59,7 +54,6 @@ STATICFILES_DIRS = (join(PROJECT_ROOT, 'components'),)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 ## Templates
@@ -68,6 +62,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
@@ -85,13 +80,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
-
-## Compressor
-COMPRESS_ENABLED = False
-COMPRESS_PRECOMPILERS = (
-    ('text/coffeescript', 'coffee --compile --stdio'),
-    ('text/less', 'lessc {infile} {outfile}'),
 )
 
 ## Authentication
@@ -166,17 +154,7 @@ LOGGING = {
 
 ## Testing
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-NOSE_ARGS = ("--cover-erase", "--with-xunit", "--xunit-file=nosetests.xml",
-             "--with-xcoverage", "--cover-package=video",
-             "--xcoverage-file=coverage.xml")
 
 ## Megascops
 DEFAULT_SIZE_QUOTA = 52428800
 DEFAULT_VIDEO_QUOTA = 5
-
-## Local settings
-try:
-    # pylint: disable=F0401
-    from local_settings import *
-except ImportError:
-    pass
