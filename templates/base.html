@@ -12,9 +12,7 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    {% compress css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/megascops.less" type="text/less">
-    {% endcompress %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/megascops.css" type="text/css">
     <style type="text/css" media="screen">
         body {
             padding-top: 60px;
@@ -62,7 +60,7 @@
         </footer>
     </div>
     <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    {% compress js %}
+
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap-transition.js"></script>
     <script src="/static/js/bootstrap-alert.js"></script>
@@ -76,10 +74,9 @@
     <script src="/static/js/bootstrap-collapse.js"></script>
     <script src="/static/js/bootstrap-carousel.js"></script>
     <script src="/static/js/bootstrap-typeahead.js"></script>
-    {% endcompress %}
-    {% compress js %}
-    <script type="text/coffeescript" src="{{ STATIC_URL }}js/megascops.coffee"></script>
-    {% endcompress %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/megascops.js"></script>
+
     {% block javascript %}
     {% endblock %}
     </body>

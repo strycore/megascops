@@ -1,3 +1,5 @@
+from base import *  # noqa
+
 DEBUG = False
 NOSE_ARGS = (
     "--cover-erase",

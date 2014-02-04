@@ -2,7 +2,7 @@
 from os.path import join, abspath, dirname
 
 ## Project
-PROJECT_ROOT = abspath(dirname(dirname(__file__)))
+PROJECT_ROOT = abspath(dirname(dirname(dirname(__file__))))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
@@ -33,7 +33,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'django_nose',
-    'compressor',
     'south',
     'djcelery',
     'sorl.thumbnail',

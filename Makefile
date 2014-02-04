@@ -3,7 +3,7 @@ CELERY_LOGGING_LEVEL="debug"
 
 
 run:
-	./manage.py runserver
+	DJANGO_SETTINGS_MODULE=megascops.settings.local ./manage.py runserver 0.0.0.0:8000
 
 initvenv:
 	virtualenv venv
@@ -32,7 +32,11 @@ build-deps:
 			     libxml2-dev
 
 test:  clean
-	./manage.py test video
+	DJANGO_SETTINGS_MODULE=megascops.settings.testing ./manage.py test video
+
+
+shell:
+	DJANGO_SETTINGS_MODULE=megascops.settings.local ./manage.py shell
 
 fixtures:
 	./manage.py dumpdata --indent=2 > video/fixtures/initial_data.json
