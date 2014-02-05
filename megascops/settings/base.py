@@ -16,8 +16,11 @@ SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
 ## Databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': join(PROJECT_ROOT, 'megascops.db'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'megascops',
+        'USER': 'megascops',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost'
     }
 }
 
