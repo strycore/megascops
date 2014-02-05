@@ -1,5 +1,4 @@
 Django
-django_compressor
 South
 celery
 django-celery
