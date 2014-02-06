@@ -2,7 +2,7 @@ Django
 South
 celery
 django-celery
-MySQL-python
+psycopg2
 sorl-thumbnail
 ipython
 pylint
