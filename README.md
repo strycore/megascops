@@ -33,3 +33,42 @@ these must be installed before running the bootstrap script.
 
    You can test if you have successfully installed the python bindings by
    typing "import quvi" from the python interactive console.
+
+
+PostgreSQL configuriguration
+----------------------------
+
+Create a user:
+
+    sudo -u postgres psql
+    create user megascops;
+
+Note that the user will need to be able to create databases in order to run
+tests. If you have created an user without this permission, run:
+
+    sudo -u postgres psql
+    ALTER USER megascops CREATEDB;
+
+Creating a database:
+
+    sudo -u postgres psql
+    create database megascops with owner megascops;
+
+or (in shell)
+
+    createdb megascops -O megascops
+
+Modify database's owner:
+
+    sudo -u postgres psql
+    alter database megascops owner to megascops;
+
+Change user's password:
+
+    sudo -u postgres psql
+    alter user megascops with password 'admin';
+
+Dropping all tables from the database
+
+    drop schema public cascade;
+    create schema public;

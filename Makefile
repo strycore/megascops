@@ -12,8 +12,8 @@ worker:
 	./manage.py celery worker --loglevel=${CELERY_LOGGING_LEVEL} -E -Q quvi
 
 db:
-	./manage.py syncdb --noinput
-	./manage.py migrate
+	DJANGO_SETTINGS_MODULE=megascops.settings.local ./manage.py syncdb --noinput
+	DJANGO_SETTINGS_MODULE=megascops.settings.local ./manage.py migrate
 
 clean:
 	rm -rf ./build
