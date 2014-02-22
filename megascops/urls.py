@@ -9,10 +9,11 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/', include(admin.site.urls)),
+    (r'^accounts/', include('allauth.urls')),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('video.urls'))
 )
 

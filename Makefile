@@ -9,7 +9,7 @@ initvenv:
 	virtualenv venv
 
 worker:
-	./manage.py celery worker --loglevel=${CELERY_LOGGING_LEVEL} -E -Q quvi
+	celery worker --loglevel=${CELERY_LOGGING_LEVEL} -E -Q quvi
 
 db:
 	DJANGO_SETTINGS_MODULE=megascops.settings.local ./manage.py syncdb --noinput

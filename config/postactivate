@@ -1,1 +1,2 @@
+export DJANGO_SETTINGS_MODULE='megascops.settings.local'
 export SECRET_KEY="this.is.the.secret.key.change.it"

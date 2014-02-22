@@ -9,6 +9,7 @@ ADMINS = (
     ('Mathieu Comandon', 'strider@strycore.com'),
 )
 MANAGERS = ADMINS
+SITE_ID = 1
 ROOT_URLCONF = 'megascops.urls'
 WSGI_APPLICATION = 'megascops.wsgi.application'
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
@@ -39,6 +40,10 @@ INSTALLED_APPS = (
     'south',
     'djcelery',
     'sorl.thumbnail',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     'video',
 )
@@ -73,6 +78,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
 )
 
 ## Middleware
@@ -87,6 +94,7 @@ MIDDLEWARE_CLASSES = (
 ## Authentication
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
