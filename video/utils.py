@@ -1,24 +1,17 @@
 import os
-import json
+import uuid
 import urllib
 import subprocess
 from django.conf import settings
 from video.models import Video
 
 
-def get_streams(url):
-    output = subprocess.Popen(['quvi', 'dump', '--print-streams',
-                               '--print-format', 'json', url],
-                              stdout=subprocess.PIPE).communicate()[0]
-    json_output = json.loads(output)
-    return json_output['quvi']['media']['streams']
-
-
-def download_thumbnail(vid_info):
-    thumbnail = "%s%s.jpg" % (vid_info['hostid'], vid_info['mediaid'])
-    thumb_rel_path = os.path.join('thumbnails/', thumbnail)
-    thumb_path = os.path.join(settings.MEDIA_ROOT, thumb_rel_path)
-    urllib.urlretrieve(vid_info['mediathumbnail'], thumb_path)
+def download_thumbnail(thumbnail_url):
+    destination_path = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
+    thumbnail_file = str(uuid.uuid4()) + ".jpg"
+    urllib.urlretrieve(thumbnail_url, os.path.join(destination_path,
+                                                   thumbnail_file))
+    thumb_rel_path = os.path.join('thumbnails', thumbnail_file)
     return thumb_rel_path
 
 

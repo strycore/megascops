@@ -46,9 +46,7 @@ def importvideo(request):
         video.page_url = video_url
         video.state = state
         video.save()
-        fetch_video.delay(video.id)
-    else:
-        state = video.state
+    fetch_video.delay(video.id)
     return render(request, 'import.html', {'video': video})
 
 
