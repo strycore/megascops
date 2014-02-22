@@ -57,7 +57,9 @@ MEDIA_ROOT = join(PROJECT_ROOT, "media")
 MEDIA_URL = "/media/"
 STATIC_ROOT = join(PROJECT_ROOT, 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (join(PROJECT_ROOT, 'components'),)
+STATICFILES_DIRS = (
+    join(PROJECT_ROOT, "public"),
+)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
