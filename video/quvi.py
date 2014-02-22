@@ -13,11 +13,12 @@ class Quvi(object):
     def __init__(self, url=None):
         self._media = None
         self._streams = None
+        self._playlist = None
         self.url = url
         self.dump_type = None
         self.stream = None
         if self.url:
-            self.get_media()
+            self.get_dump()
 
     def quvi_run(self, options):
         command = ['quvi', 'dump', '-p', 'json'] + options
@@ -34,15 +35,26 @@ class Quvi(object):
                            url, stream_data)
             self._streams = []
 
-    def get_media(self):
+    def get_dump(self):
         media_data = self.quvi_run([self.url])
-        try:
+        if 'error' in media_data:
+            raise QuviError(media_data['error'])
+        if not 'quvi' in media_data:
+            raise ValueError("Invalid response from quvi: %s", media_data)
+        if 'media' in media_data['quvi']:
+            self.dump_type = 'MEDIA'
             self._media = media_data['quvi']['media']
             self.stream = QuviStream(self._media['stream'])
-        except KeyError:
-            LOGGER.warning("Unable to get media info from %s: %s",
-                           self.url, media_data)
-            self._media = {}
+        elif 'playlist' in media_data['quvi']:
+            self.dump_type = 'PLAYLIST'
+            self._playlist = media_data['quvi']['playlist']
+
+    @property
+    def dump(self):
+        if self.dump_type == 'PLAYLIST':
+            return self._playlist
+        elif self.dump_type == 'MEDIA':
+            return self._media
 
     @property
     def host(self):
@@ -51,21 +63,25 @@ class Quvi(object):
 
     @property
     def thumbnail_url(self):
-        return self._media.get('QUVI_MEDIA_PROPERTY_THUMBNAIL_URL')
+        return self.dump.get('QUVI_%s_PROPERTY_THUMBNAIL_URL' % self.dump_type)
 
     @property
     def title(self):
-        _title = self._media.get('QUVI_MEDIA_PROPERTY_TITLE')
+        _title = self.dump.get('QUVI_%s_PROPERTY_TITLE' % self.dump_type)
         if not _title:
             return self.url
 
     @property
-    def video_id(self):
-        return self._media.get('QUVI_MEDIA_PROPERTY_ID')
+    def identifier(self):
+        return self.dump.get('QUVI_%s_PROPERTY_ID' % self.dump_type)
 
     @property
     def duration(self):
         return self._media.get('QUVI_MEDIA_PROPERTY_DURATION_MS')
+
+
+class QuviError(RuntimeError):
+    pass
 
 
 class QuviStream(object):
