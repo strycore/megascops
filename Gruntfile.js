@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-  grunt.initConfig({ 
+  grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     copy: {
       main: {
@@ -13,15 +13,29 @@ module.exports = function(grunt) {
     coffee: {
       compile: {
         files: {
-          'public/js/megascops.js': 'src/coffee/megascops.coffee'        
+          'public/js/megascops.js': 'src/coffee/megascops.coffee'
         }
-      } 
+      }
+    },
+    watch: {
+      options: {
+        livereload: true
+      },
+      less: {
+        files: 'src/less/*',
+        tasks: ['less']
+      },
+      coffee: {
+        files: 'src/coffee/*',
+        tasks: ['coffee']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-coffee');
-  grunt.loadNpmTasks('grunt-contrib-copy'); 
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('default', ['coffee', 'copy']);
 };
