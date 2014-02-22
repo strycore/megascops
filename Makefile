@@ -26,7 +26,7 @@ deps-system:
 	sudo apt-get install rabbitmq-server liblua5.1-socket2 lua-expat \
 		postgresql libpq-dev
 
-build-deps:
+deps-build:
 	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
 		             autoconf gengetopt autopoint asciidoc \
 			     libproxy-dev libjson-glib-dev libglib2.0-dev \
