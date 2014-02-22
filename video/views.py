@@ -49,10 +49,7 @@ def importvideo(request):
         fetch_video.delay(video.id)
     else:
         state = video.state
-
-    return render_to_response('import.html',
-                              {'video': video},
-                              context_instance=RequestContext(request))
+    return render(request, 'import.html', {'video': video})
 
 
 @login_required

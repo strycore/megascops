@@ -1,5 +1,7 @@
 # -*- coding: utf8 -*-
+from __future__ import absolute_import
 import os
+import logging
 
 from datetime import datetime
 from celery import task
@@ -11,6 +13,8 @@ from video.models import Video
 from video.utils import (get_streams, download_thumbnail, VideoDownloader,
                          encode_videos)
 
+LOGGER = logging.getLogger(__name__)
+
 
 @task
 def fetch_video(video_id):
@@ -19,6 +23,7 @@ def fetch_video(video_id):
     The video parameter is an object of type Video, as defined in
     megascops.models.Video """
     video = Video.objects.get(pk=video_id)
+    LOGGER.info("Fetching %s", video)
     video.state = "FETCHING_INFO"
     video.save()
     vid_info = get_streams(video.page_url)

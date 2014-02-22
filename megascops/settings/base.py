@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+from __future__ import absolute_import
 from os.path import join, abspath, dirname
 
 ## Project
@@ -38,7 +39,6 @@ INSTALLED_APPS = (
 
     'django_nose',
     'south',
-    'djcelery',
     'sorl.thumbnail',
     'allauth',
     'allauth.account',
@@ -104,13 +104,9 @@ LOGIN_ERROR_URL = "/accounts/login/error/"
 EMAIL_SUBJECT_PREFIX = "[Megascops]"
 DEFAULT_FROM_EMAIL = "strider@strycore.com"
 
+
 ## Celery
-CELERY_ROUTES = {
-    'video.tasks.fetch_video': {'queue': 'quvi'},
-    'video.tasks.encode_videos': {'queue': 'quvi'},
-}
-import djcelery
-djcelery.setup_loader()
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 ## Logging
 LOGGING = {
