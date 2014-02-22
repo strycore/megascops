@@ -1,0 +1,19 @@
+{
+  "name": "megascops",
+  "version": "0.0.1",
+  "description": "Megascops",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strycore/megascops"
+  },
+  "author": "Mathieu Comandon",
+  "license": "AGPLv3",
+  "bugs": {
+    "url": "https://github.com/strycore/megascops/issues"
+  },
+  "homepage": "https://github.com/strycore/megascops"
+}

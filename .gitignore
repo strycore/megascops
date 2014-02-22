@@ -8,3 +8,4 @@ megascops.log
 .coverage
 coverage.xml
 nosetests.xml
+node_modules
