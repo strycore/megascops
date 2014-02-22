@@ -18,10 +18,11 @@ LOGGER = logging.getLogger(__name__)
 
 @task
 def fetch_video(video_id):
-    """Task to download the video.
+    """ Task to download the video.
 
-    The video parameter is an object of type Video, as defined in
-    megascops.models.Video """
+        The video parameter is an object of type Video, as defined in
+        megascops.models.Video
+    """
     video = Video.objects.get(pk=video_id)
     LOGGER.info("Fetching %s", video)
     video.state = "FETCHING_INFO"

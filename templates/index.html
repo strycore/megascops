@@ -9,8 +9,7 @@
   {% include "_thumbnails.html" %}
 </div>
 </section>
-<form class="import-form" action="{% url 'import_video' %}" method="post">
-  {% csrf_token %}
+<form class="import-form" action="{% url 'analyze_url' %}" method="get">
   <label>Enter the url of the video you want to save</label>
   <input type="text" name="url" placeholder="URL of the video" />
   <input type="submit" value="Save!" />

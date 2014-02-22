@@ -11,6 +11,7 @@ from django.shortcuts import (render_to_response, get_object_or_404,
                               redirect, render)
 
 from .models import Video, Profile
+from .quvi import Quvi
 from .tasks import fetch_video, encode_task
 
 
@@ -29,13 +30,17 @@ def video_list(request):
 
 
 @login_required
-def importvideo(request):
-    """Shown when importing a video"""
-    if request.method == "POST":
-        video_url = request.POST.get("url")
-    else:
-        raise Http404
+def analyze_url(request):
+    """ Gathers information with quvi about videos on a given URL. """
+    url = request.GET.get("url")
+    quvi = Quvi(url)
+    request.session['current_quvi'] = quvi.json
+    return render(request, 'video/analyze.html', {'quvi': quvi})
 
+
+@login_required
+def import_video(request):
+    video_url = NotImplemented
     # Check if the video has already been downloaded
     try:
         video = Video.objects.get(page_url=video_url)

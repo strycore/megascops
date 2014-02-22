@@ -1,6 +1,7 @@
 import json
 import logging
 from urlparse import urlparse
+import urllib
 import subprocess
 
 LOGGER = logging.getLogger(__name__)
@@ -10,15 +11,19 @@ class Quvi(object):
     # TODO: handle '--print-streams' options to get all possible streams.
     # Note: this option does not retrieve video metadata
 
-    def __init__(self, url=None):
+    def __init__(self, url=None, dump=None):
         self._media = None
         self._streams = None
         self._playlist = None
         self.url = url
+        self.raw_dump = dump
         self.dump_type = None
         self.stream = None
         if self.url:
-            self.get_dump()
+            self.raw_dump = self.quvi_run([self.url])
+        else:
+            self.raw_dump = json.loads(dump)
+        self.parse_dump()
 
     def quvi_run(self, options):
         command = ['quvi', 'dump', '-p', 'json'] + options
@@ -35,19 +40,18 @@ class Quvi(object):
                            url, stream_data)
             self._streams = []
 
-    def get_dump(self):
-        media_data = self.quvi_run([self.url])
-        if 'error' in media_data:
-            raise QuviError(media_data['error'])
-        if not 'quvi' in media_data:
-            raise ValueError("Invalid response from quvi: %s", media_data)
-        if 'media' in media_data['quvi']:
+    def parse_dump(self):
+        if 'error' in self.raw_dump:
+            raise QuviError(self.raw_dump['error'])
+        if not 'quvi' in self.raw_dump:
+            raise ValueError("Invalid response from quvi: %s", self.raw_dump)
+        if 'media' in self.raw_dump['quvi']:
             self.dump_type = 'MEDIA'
-            self._media = media_data['quvi']['media']
+            self._media = self.raw_dump['quvi']['media']
             self.stream = QuviStream(self._media['stream'])
-        elif 'playlist' in media_data['quvi']:
+        elif 'playlist' in self.raw_dump['quvi']:
             self.dump_type = 'PLAYLIST'
-            self._playlist = media_data['quvi']['playlist']
+            self._playlist = self.raw_dump['quvi']['playlist']
 
     @property
     def dump(self):
@@ -55,6 +59,10 @@ class Quvi(object):
             return self._playlist
         elif self.dump_type == 'MEDIA':
             return self._media
+
+    @property
+    def json(self):
+        return json.dumps(self.raw_dump)
 
     @property
     def host(self):
@@ -68,8 +76,10 @@ class Quvi(object):
     @property
     def title(self):
         _title = self.dump.get('QUVI_%s_PROPERTY_TITLE' % self.dump_type)
+        _title = urllib.unquote(_title)
         if not _title:
-            return self.url
+            _title = self.url
+        return _title
 
     @property
     def identifier(self):
@@ -78,6 +88,19 @@ class Quvi(object):
     @property
     def duration(self):
         return self._media.get('QUVI_MEDIA_PROPERTY_DURATION_MS')
+
+    @property
+    def playlist(self):
+        if self.dump_type != 'PLAYLIST':
+            return []
+        prefix = 'QUVI_PLAYLIST_MEDIA_PROPERTY_'
+        return [
+            {
+                'title': urllib.unquote(item[prefix + 'TITLE']),
+                'url': item[prefix + '_URL'],
+                'duration': item[prefix + '_DURATION_MS'],
+            } for item in self._playlist['media']
+        ]
 
 
 class QuviError(RuntimeError):
