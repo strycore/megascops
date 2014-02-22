@@ -72,3 +72,10 @@ Dropping all tables from the database
 
     drop schema public cascade;
     create schema public;
+
+Quick setup:
+
+    sudo -u postgres psql
+    create user megascops with password 'admin';
+    create database megascops with owner megascops;
+    

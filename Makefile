@@ -23,14 +23,20 @@ deps:
 	pip install -r config/requirements.pip
 
 deps-system:
-	sudo apt-get install rabbitmq-server liblua5.1-socket2 lua-expat \
+	sudo apt-get install -y rabbitmq-server liblua5.1-socket2 lua-expat \
 		postgresql libpq-dev
 
 deps-build:
-	sudo apt-get install libtool libcurl4-gnutls-dev liblua5.1-0-dev \
+	sudo apt-get install -y libtool libcurl4-gnutls-dev liblua5.1-0-dev \
 		             autoconf gengetopt autopoint asciidoc \
 			     libproxy-dev libjson-glib-dev libglib2.0-dev \
 			     libxml2-dev
+
+deps-npm:
+	sudo npm install coffee-script -g
+	sudo npm install less -g
+
+deps-all: deps-system deps-build deps deps-npm
 
 test:  clean
 	DJANGO_SETTINGS_MODULE=megascops.settings.testing ./manage.py test video
@@ -92,6 +98,3 @@ quvi-python:
 
 quvi:	quvi-scripts libquvi quvi-tool
 
-npmdeps:
-	sudo npm install coffee-script -g
-	sudo npm install less -g
