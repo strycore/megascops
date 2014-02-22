@@ -4,7 +4,9 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {flatten: true, expand: true, cwd: 'components/mediaelement/build/', src: '**', dest: 'public/mediaelement/'}
+          {flatten: true, expand: true, cwd: 'components/mediaelement/build/', src: '**', dest: 'public/mediaelement/'},
+          {flatten: true, expand: true, cwd: 'components/jquery/dist/', src: '**', dest: 'public/js/'},
+          {flatten: false, expand: true, cwd: 'components/bootstrap/dist/', src: '**', dest: 'public/'}
         ]
       }
     },
@@ -21,5 +23,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-copy'); 
 
-  grunt.registerTask('default', ['coffee', 'copy'])
+  grunt.registerTask('default', ['coffee', 'copy']);
 };
