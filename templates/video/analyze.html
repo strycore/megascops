@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<img src='{{ quvi.thumbnail_url }}' />
+<h1>{{ quvi.title }}</h1>
+{% if quvi.dump_type == 'PLAYLIST' %}
+<h2>Playlist content</h2>
+<ul>
+  {% for item in quvi.playlist %}
+  <li>{{ item.title }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
