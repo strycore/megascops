@@ -1,0 +1,21 @@
+{
+  "name": "megascops",
+  "version": "0.0.1",
+  "homepage": "https://github.com/strycore/megascops",
+  "authors": [
+    "Mathieu Comandon <strycore@gmail.com>"
+  ],
+  "license": "AGPLv3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "mediaelement": "~2.13.2"
+  }
+}

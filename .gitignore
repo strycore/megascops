@@ -9,3 +9,5 @@ megascops.log
 coverage.xml
 nosetests.xml
 node_modules
+components
+public
