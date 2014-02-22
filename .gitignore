@@ -1,14 +1,10 @@
+*.pyc
 megascops.db
 /build
-local_settings.py
-media/thumbnails/*
-media/video/*
-config/local_settings_staging.py
-/static
+media
+static
 tags
 megascops.log
-PYSMELLTAGS.src
-.ropeproject
 .coverage
 coverage.xml
 nosetests.xml
