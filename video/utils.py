@@ -52,21 +52,20 @@ def launch_encoder(input_file, output_file, codec="", options=""):
 
 
 # pylint: disable=R0903
-class VideoDownloader(object):
-    def __init__(self, video_id):
-        self.video_id = video_id
-        self.video = Video.objects.get(pk=video_id)
+class CeleryDownloader(object):
+    """ Download a file and report progress to a Celery task. """
+    def __init__(self, caller):
+        self.caller = caller
 
-    def _download_monitor(self, piece, block_size, total_size):
+    def monitor_progress(self, piece, block_size, total_size):
         bytes_downloaded = piece * block_size
         if total_size:
             progress = bytes_downloaded / (total_size * 1.0)
         else:
             progress = 0
-        #print "%d / %d " % (bytes_downloaded, total_size)
-        if piece % 100 == 0:
-            self.video.progress = progress * 100
-            self.video.save()
+        percent = int(progress * 100)
+        self.caller.update_state(state='PROGRESS',
+                                 meta={'percent': percent})
 
     def download(self, url, dest_path):
-        urllib.urlretrieve(url, dest_path, self._download_monitor)
+        urllib.urlretrieve(url, dest_path, self.monitor_progress)

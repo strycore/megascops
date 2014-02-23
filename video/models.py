@@ -1,6 +1,4 @@
-"""Video models"""
 import os
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -15,24 +13,6 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    def viewable_videos(self):
-        return self.video_set.ready()
-
-    def unviewable_videos(self):
-        return self.video_set.pending()
-
-
-class VideoManager(models.Manager):
-    def ready(self):
-        return self.get_query_set().filter(
-            state__in=["READY", "DOWNLOAD_FINISHED"]
-        )
-
-    def pending(self):
-        return self.get_query_set().exclude(
-            state__in=["READY", "DOWNLOAD_FINISHED"]
-        )
-
 
 class Video(models.Model):
     """The video object"""
@@ -45,11 +25,8 @@ class Video(models.Model):
     extension = models.CharField(max_length=10)
     state = models.CharField(max_length=24)
     thumbnail = models.FileField(upload_to='thumbnails', null=True)
-    progress = models.FloatField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     private = models.BooleanField(default=False)
-
-    objects = VideoManager()
 
     def __unicode__(self):
         return "%s" % (self.title or self.page_url or self.id)

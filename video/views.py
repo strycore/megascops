@@ -1,12 +1,15 @@
 """Megascops core views"""
 #pylint: disable=E1101
 import time
+import json
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
+
+from celery.result import AsyncResult
 
 from .models import Video
 from .quvi import Quvi
@@ -69,15 +72,19 @@ def launch_import(request):
     video.state = "DOWNLOAD_INIT"
     video.host = quvi.host
     video.save()
-    fetch_video.delay(quvi.json, video.id)
-    return render(request, 'video/import.html', {'video': video})
+    task = fetch_video.delay(quvi.json, video.id)
+    return render(request, 'video/import.html',
+                  {'video': video, 'task_id': task.id})
 
 
 @login_required
-def refresh(request, video_id):
-    """Update the status of a video being imported"""
-    video = get_object_or_404(Video, pk=video_id)
-    return render(request, 'video/import.html', {'video': video})
+def poll_download(request):
+    task_id = request.GET.get('task-id')
+    if not task_id:
+        raise Http404
+    task = AsyncResult(task_id)
+    task_state = task.result or task.state
+    return HttpResponse(json.dumps(task_state), mimetype='application/json')
 
 
 @login_required
@@ -95,9 +102,7 @@ def convert(request, video_id):
 def play(request, filename, pk):
     """Show a video player for the selected video"""
     video = get_object_or_404(Video, pk=pk)
-    return render(request, 'video/play.html', {
-        'video': video
-    })
+    return render(request, 'video/play.html', {'video': video})
 
 
 @login_required

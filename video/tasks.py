@@ -3,14 +3,13 @@ from __future__ import absolute_import
 import os
 import logging
 
-from celery import task
+from celery import task, current_task
 
 from django.conf import settings
 
-from video.models import Video
+from .models import Video
 from .quvi import Quvi
-from video.utils import (download_thumbnail, VideoDownloader,
-                         encode_videos)
+from .utils import download_thumbnail, CeleryDownloader, encode_videos
 
 LOGGER = logging.getLogger(__name__)
 
@@ -23,19 +22,16 @@ def fetch_video(quvi_dump, video_id):
         megascops.models.Video
     """
     quvi = Quvi(dump=quvi_dump)
-    LOGGER.info("Fetching %s", quvi.stream.url)
-
     video = Video.objects.get(pk=video_id)
-    dest_file = "%s.%s" % (video.filename, quvi.stream.extension)
-    dest_path = os.path.join(settings.MEDIA_ROOT, 'videos/', dest_file)
     if quvi.thumbnail_url:
         video.thumbnail = download_thumbnail(quvi.thumbnail_url)
-    video.state = "DOWNLOAD_STARTED"
-    video.save()
-    downloader = VideoDownloader(video_id)
+
+    dest_file = "%s.%s" % (video.filename, quvi.stream.extension)
+    dest_path = os.path.join(settings.MEDIA_ROOT, 'videos/', dest_file)
+    current_task.update_state(state='STARTED')
+    downloader = CeleryDownloader(current_task)
     downloader.download(quvi.stream.url, dest_path)
-    video.state = "DOWNLOAD_FINISHED"
-    video.save()
+    current_task.update_state(state='FINISHED')
 
 
 @task
