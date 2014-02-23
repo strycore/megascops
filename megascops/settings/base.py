@@ -98,6 +98,16 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
+        'AUTH_PARAMS': {'access_type': 'online'}
+    }
+}
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGIN_ERROR_URL = "/accounts/login/error/"

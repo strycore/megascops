@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 from django.conf import settings
 
+from accounts.views import profile
 
 admin.autodiscover()
 
@@ -12,6 +13,8 @@ urlpatterns = patterns(
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/profile/$', profile,
+        name="account_profile"),
     url(r'^about/$', TemplateView.as_view(template_name='about.html'),
         name="about"),
     url(r'^', include('video.urls'))

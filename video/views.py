@@ -2,7 +2,6 @@
 #pylint: disable=E1101
 import time
 
-from django.contrib.auth.models import User
 from django.http import Http404
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
@@ -10,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import (render_to_response, get_object_or_404,
                               redirect, render)
 
-from .models import Video, Profile
+from .models import Video
 from .quvi import Quvi
 from .tasks import fetch_video, encode_task
 
@@ -90,12 +89,6 @@ def delete(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.delete()
     return render(request, 'deleted.html')
-
-
-def user_profile_show(request, username):
-    user = get_object_or_404(User, username=username)
-    user_profile, _created = Profile.objects.get_or_create(user=user)
-    return render(request, 'user_profile.html', {'user_profile': user_profile})
 
 
 def livecast(request):

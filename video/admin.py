@@ -5,7 +5,7 @@ from django.contrib import admin
 
 class VideoAdmin(admin.ModelAdmin):
     model = Video
-    list_display = ("__unicode__", "profile", "state", "host")
+    list_display = ("__unicode__", "user", "state", "host")
 
 admin.site.register(Video, VideoAdmin)
 admin.site.register(Profile)

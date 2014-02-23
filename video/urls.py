@@ -4,8 +4,6 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns(
     'video.views',
     url(r'^$', 'index', name='homepage'),
-    url(r'^user/(?P<username>[\w_-]+)/$', 'user_profile_show',
-        name="user_profile_show"),
     url(r'^list/$', 'video_list',
         name="video_list"),
     url(r'^analyze/$', 'analyze_url', name="analyze_url"),

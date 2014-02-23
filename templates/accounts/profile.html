@@ -2,7 +2,7 @@
 
 {% block content %}
 <div>
-  {{ user_profile.user.username }}'s videos
+  {{ user.username }}'s videos
   <ul>
     {% for video in user_profile.viewable_videos %}
     <li>
@@ -20,5 +20,5 @@
   </ul>
 
 </div>
-  
+
 {% endblock %}
