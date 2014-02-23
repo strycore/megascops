@@ -3,12 +3,10 @@
 import time
 
 from django.http import Http404
-from django.template import RequestContext
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.shortcuts import (render_to_response, get_object_or_404,
-                              redirect, render)
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Video
 from .quvi import Quvi
@@ -72,15 +70,14 @@ def launch_import(request):
     video.host = quvi.host
     video.save()
     fetch_video.delay(quvi.json, video.id)
-    return render(request, 'import.html', {'video': video})
+    return render(request, 'video/import.html', {'video': video})
 
 
 @login_required
 def refresh(request, video_id):
     """Update the status of a video being imported"""
     video = get_object_or_404(Video, pk=video_id)
-    return render_to_response('video/import.html', {'video': video},
-                              context_instance=RequestContext(request))
+    return render(request, 'video/import.html', {'video': video})
 
 
 @login_required
