@@ -6,6 +6,7 @@ urlpatterns = patterns(
     url(r'^$', 'index', name='homepage'),
     url(r'^list/$', 'video_list',
         name="video_list"),
+    url(r'^error/$', 'user_error', name='user_error'),
     url(r'^analyze/$', 'analyze_url', name="analyze_url"),
     url(r'^import/$', 'launch_import', name='launch_import'),
     url(r'^refresh/(?P<video_id>[\d]+)/$', 'refresh', name="refresh"),

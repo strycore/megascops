@@ -6,11 +6,13 @@ from django.http import Http404
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.shortcuts import (render_to_response, get_object_or_404,
                               redirect, render)
 
 from .models import Video
 from .quvi import Quvi
+from . import utils
 from .tasks import fetch_video, encode_task
 
 
@@ -18,6 +20,13 @@ def index(request):
     """Homepage"""
     videos = Video.objects.ready().filter(private=False)
     return render(request, 'index.html', {'videos': videos})
+
+
+def user_error(request):
+    message = request.session.get('user_error')
+    if not message:
+        raise Http404
+    return render(request, 'video/error.html', {'message': message})
 
 
 def video_list(request):
@@ -31,8 +40,18 @@ def video_list(request):
 @login_required
 def analyze_url(request):
     """ Gathers information with quvi about videos on a given URL. """
-    url = request.GET.get("url")
-    quvi = Quvi(url)
+    try:
+        url = utils.sanitize_url(request.GET.get("url"))
+    except ValueError as ex:
+        request.session['user_error'] = ex.message
+        return redirect(reverse('user_error'))
+    try:
+        quvi = Quvi(url)
+    except ValueError:
+        request.session['user_error'] = (
+            "Impossible to get video information from %s" % url
+        )
+        return redirect(reverse('user_error'))
     request.session['current_quvi'] = quvi.json
     return render(request, 'video/analyze.html', {'quvi': quvi})
 

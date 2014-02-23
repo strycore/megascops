@@ -13,7 +13,7 @@ def sanitize_url(url):
     if not parsed.scheme:
         url = "http://" + url
     parsed = urlparse(url)
-    if not parsed.scheme:
+    if not '.' in parsed.netloc:
         raise ValueError("Invalid url %s" % url)
     return url
 
