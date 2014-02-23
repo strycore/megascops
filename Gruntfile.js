@@ -38,6 +38,9 @@ module.exports = function(grunt) {
       coffee: {
         files: 'src/coffee/*',
         tasks: ['coffee']
+      },
+      templates: {
+        files: ['templates/**/*.html']
       }
     }
   });

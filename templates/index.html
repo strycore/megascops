@@ -9,9 +9,11 @@
   {% include "_thumbnails.html" %}
 </div>
 </section>
-<form class="import-form" action="{% url 'analyze_url' %}" method="get">
-  <label>Enter the url of the video you want to save</label>
-  <input type="text" name="url" placeholder="URL of the video" />
-  <input type="submit" value="Save!" />
+<form class="import-form" action="{% url 'analyze_url' %}" method="get" role="form">
+  <legend>Enter the url of the video you want to save</legend>
+  <div class="form-group">
+    <input type="text" class='form-control' name="url" placeholder="URL of the video" />
+  </div>
+  <input type="submit" value="Save!" class='btn' />
 </form>
 {% endblock %}

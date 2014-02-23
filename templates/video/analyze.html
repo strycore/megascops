@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class='media-'>
 <img src='{{ quvi.thumbnail_url }}' />
-<h1>{{ quvi.title }}</h1>
+<strong>{{ quvi.title }}</strong>
 {% if quvi.dump_type == 'PLAYLIST' %}
 <h2>Playlist content</h2>
 <ul>
