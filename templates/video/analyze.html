@@ -4,22 +4,26 @@
 <div class="page-header">
   <h1>Videos available</h1>
 </div>
-<div class='row'>
-  <div class="col-sm-3 col-md-3">
-    <img class='thumbnail' src='{{ quvi.thumbnail_url }}' />
-  </div>
-  <div class="col-sm-7 col-md-7">
+<div class='media-summary'>
+  <img class='thumbnail' src='{{ quvi.thumbnail_url }}' />
     <h2>{{ quvi.title }}</h2>
     <a class='btn btn-primary btn-lg' id='import-btn' href='{% url "launch_import" %}'>Import</a>
-  </div>
+</div>
+
 {% if quvi.dump_type == 'PLAYLIST' %}
+<div class='playlist-summary'>
   <h2>Playlist content</h2>
   <ul>
     {% for item in quvi.playlist %}
-    <li>{{ item.title }}</li>
+    <li>
+    <input type='checkbox' id='playlist-item-{{ forloop.counter }}'>
+    <label for='playlist-item-{{ forloop.counter }}'>{{ item.title }}</label>
+    <a href='#' class='btn btn-info btn-sm pull-right'>Import</a>
+    </li>
     {% endfor %}
   </ul>
 {% endif %}
+</div>
 {% endblock %}
 
 {% block javascript %}

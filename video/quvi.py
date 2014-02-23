@@ -102,8 +102,8 @@ class Quvi(object):
         return [
             {
                 'title': urllib.unquote(item[prefix + 'TITLE']),
-                'url': item[prefix + '_URL'],
-                'duration': item[prefix + '_DURATION_MS'],
+                'url': item[prefix + 'URL'],
+                'duration': item[prefix + 'DURATION_MS'],
             } for item in self._playlist['media']
         ]
 
