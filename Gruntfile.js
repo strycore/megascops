@@ -17,6 +17,16 @@ module.exports = function(grunt) {
         }
       }
     },
+    less: {
+      css: {
+        options: {
+          paths: ['components/bootstrap/less']
+        },
+        files: {
+          'public/css/megascops.css': ['src/less/megascops.less']
+        }
+      }
+    },
     watch: {
       options: {
         livereload: true
@@ -37,5 +47,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['coffee', 'copy']);
+  grunt.registerTask('default', ['coffee', 'copy', 'less']);
 };

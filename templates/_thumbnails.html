@@ -4,13 +4,13 @@
   {% if videos %}
   <ul class="thumbnails">
     {% for video in videos %}
-      <li class="span3">
-          <a class="thumbnail" href="{% url "play" filename=video.filename %}">
-          <img title="{{ video.page_title }}" src="{{ MEDIA_URL }}{{ video.thumbnail }}" >
+      <li class="col-sm-3">
+        <a href="{% url "play" filename=video.filename %}">
+          <img class="img-thumbnail" title="{{ video.page_title }}" src="{{ MEDIA_URL }}{{ video.thumbnail }}" >
           <div class="caption">
             <strong title="{{ video.page_title }}">{{ video.page_title }}</strong>
           </div>
-          </a>
+        </a>
       </li>
     {% endfor %}
   </ul>
