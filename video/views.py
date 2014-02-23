@@ -61,7 +61,7 @@ def launch_import(request):
 def refresh(request, video_id):
     """Update the status of a video being imported"""
     video = get_object_or_404(Video, pk=video_id)
-    return render_to_response('import.html', {'video': video},
+    return render_to_response('video/import.html', {'video': video},
                               context_instance=RequestContext(request))
 
 
@@ -80,7 +80,7 @@ def convert(request, video_id):
 def play(request, filename, pk):
     """Show a video player for the selected video"""
     video = get_object_or_404(Video, pk=pk)
-    return render(request, 'play.html', {
+    return render(request, 'video/play.html', {
         'video': video
     })
 

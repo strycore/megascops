@@ -1,6 +1,5 @@
 """Video models"""
 import os
-from datetime import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -47,7 +46,7 @@ class Video(models.Model):
     state = models.CharField(max_length=24)
     thumbnail = models.FileField(upload_to='thumbnails', null=True)
     progress = models.FloatField(null=True)
-    created_at = models.DateTimeField(default=datetime.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     private = models.BooleanField(default=False)
 
     objects = VideoManager()
