@@ -36,6 +36,7 @@ deps-npm:
 	sudo npm install coffee-script -g
 	sudo npm install less -g
 	sudo npm install grunt-cli -g
+	sudo npm install bower -g
 	npm install
 	bower install
 
