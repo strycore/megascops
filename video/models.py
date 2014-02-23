@@ -36,7 +36,7 @@ class VideoManager(models.Manager):
 
 class Video(models.Model):
     """The video object"""
-    profile = models.ForeignKey(Profile)
+    user = models.ForeignKey(User)
     host = models.CharField(max_length=64, blank=True)
     title = models.CharField(max_length=256, blank=True)
     page_url = models.CharField(max_length=256)

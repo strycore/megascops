@@ -44,7 +44,7 @@ def launch_import(request):
     quvi = Quvi(dump=dump)
     # Check if the video has already been downloaded
     video = Video()
-    video.profile = request.user.profile
+    video.user = request.user
     video.title = quvi.title
     video.extension = quvi.stream.extension
     video.page_url = quvi.url
