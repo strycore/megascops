@@ -21,9 +21,14 @@ class Quvi(object):
         self.stream = None
         if self.url:
             self.raw_dump = self.quvi_run([self.url])
+            self.raw_dump['url'] = self.url
         else:
             self.raw_dump = json.loads(dump)
+            self.url = self.raw_dump['url']
         self.parse_dump()
+
+    def __repr__(self):
+        return "<Quvi url=%s type=%s>" % (self.url, self.dump_type)
 
     def quvi_run(self, options):
         command = ['quvi', 'dump', '-p', 'json'] + options

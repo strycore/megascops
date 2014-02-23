@@ -39,16 +39,17 @@ def analyze_url(request):
 
 
 @login_required
-def import_video(request):
-    video_url = NotImplemented
+def launch_import(request):
+    dump = request.session['current_quvi']
+    quvi = Quvi(dump=dump)
     # Check if the video has already been downloaded
     try:
-        video = Video.objects.get(page_url=video_url)
+        video = Video.objects.get(page_url=quvi.url)
     except ObjectDoesNotExist:
         state = "DOWNLOAD_INIT"
         video = Video()
         video.profile = request.user.profile
-        video.page_url = video_url
+        video.page_url = quvi.url
         video.state = state
         video.save()
     fetch_video.delay(video.id)

@@ -1,15 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class='media-'>
-<img src='{{ quvi.thumbnail_url }}' />
-<strong>{{ quvi.title }}</strong>
+<div class="page-header">
+  <h1>Videos available</h1>
+</div>
+<div class='row'>
+  <div class="col-sm-3 col-md-3">
+    <img class='thumbnail' src='{{ quvi.thumbnail_url }}' />
+  </div>
+  <div class="col-sm-7 col-md-7">
+    <h2>{{ quvi.title }}</h2>
+    <a class='btn btn-primary btn-lg' id='import-btn' href='{% url "launch_import" %}'>Import</a>
+  </div>
 {% if quvi.dump_type == 'PLAYLIST' %}
-<h2>Playlist content</h2>
-<ul>
-  {% for item in quvi.playlist %}
-  <li>{{ item.title }}</li>
-  {% endfor %}
-</ul>
+  <h2>Playlist content</h2>
+  <ul>
+    {% for item in quvi.playlist %}
+    <li>{{ item.title }}</li>
+    {% endfor %}
+  </ul>
 {% endif %}
+{% endblock %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script>
+  $('#import-btn').on('click', function () {
+    launchImport();
+  });
+  </script>
 {% endblock %}
