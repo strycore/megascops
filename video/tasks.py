@@ -5,7 +5,6 @@ import logging
 
 from celery import task
 
-from django.template.defaultfilters import slugify
 from django.conf import settings
 
 from video.models import Video
@@ -17,25 +16,16 @@ LOGGER = logging.getLogger(__name__)
 
 
 @task
-def fetch_video(video_id):
+def fetch_video(quvi_dump, video_id):
     """ Task to download the video.
 
         The video parameter is an object of type Video, as defined in
         megascops.models.Video
     """
-    video = Video.objects.get(pk=video_id)
-    LOGGER.info("Fetching %s", video)
-    video.state = "FETCHING_INFO"
-    video.save()
-    quvi = Quvi(video.page_url)
-    if not quvi.title:
-        raise ValueError("No title for this video")
-    video.page_title = quvi.title
-    video.host = quvi.host
+    quvi = Quvi(dump=quvi_dump)
+    LOGGER.info("Fetching %s", quvi.stream.url)
 
-    video.filename = slugify(quvi.title)
-    video.duration = quvi.duration
-    video.file_suffix = quvi.stream.extension
+    video = Video.objects.get(pk=video_id)
     dest_file = "%s.%s" % (video.filename, quvi.stream.extension)
     dest_path = os.path.join(settings.MEDIA_ROOT, 'videos/', dest_file)
     if quvi.thumbnail_url:

@@ -5,7 +5,7 @@ import time
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.template import RequestContext
-from django.core.exceptions import ObjectDoesNotExist
+from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import (render_to_response, get_object_or_404,
                               redirect, render)
@@ -43,16 +43,17 @@ def launch_import(request):
     dump = request.session['current_quvi']
     quvi = Quvi(dump=dump)
     # Check if the video has already been downloaded
-    try:
-        video = Video.objects.get(page_url=quvi.url)
-    except ObjectDoesNotExist:
-        state = "DOWNLOAD_INIT"
-        video = Video()
-        video.profile = request.user.profile
-        video.page_url = quvi.url
-        video.state = state
-        video.save()
-    fetch_video.delay(video.id)
+    video = Video()
+    video.profile = request.user.profile
+    video.title = quvi.title
+    video.extension = quvi.stream.extension
+    video.page_url = quvi.url
+    video.filename = slugify(quvi.title)
+    video.duration = quvi.duration
+    video.state = "DOWNLOAD_INIT"
+    video.host = quvi.host
+    video.save()
+    fetch_video.delay(quvi.json, video.id)
     return render(request, 'import.html', {'video': video})
 
 
@@ -76,9 +77,9 @@ def convert(request, video_id):
     return redirect("/")
 
 
-def play(request, filename):
+def play(request, filename, pk):
     """Show a video player for the selected video"""
-    video = get_object_or_404(Video, filename=filename)
+    video = get_object_or_404(Video, pk=pk)
     return render(request, 'play.html', {
         'video': video
     })

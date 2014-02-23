@@ -3,73 +3,47 @@
 <link rel="stylesheet" href="{{ STATIC_URL }}mediaelement/mediaelementplayer.css" type="text/css" media="screen" />
 {% endblock %}
 {% block content %}
-  <h1>{{ video.page_title }}</h1>
-  <section class="row">
-    <div class="span8">
-    </div>
-  </section>
-
+  <h1>{{ video.title }}</h1>
   <div class="video-background">
-      <video width=720 height=480>
-      {% if video.has_webm %}
-        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.webm" type="video/ogg">
-      {% endif %}
-      {% if video.has_mp4 %}
-        <source src="{{ MEDIA_URL }}video/{{ video.filename }}.mp4" type="video/mp4">
-      {% endif %}
-        Your browser does not support the <code>video</code> element.
-      </video>
+    <video width=720 height=480>
+    {% if video.has_webm %}
+      <source src="{{ MEDIA_URL }}videos/{{ video.filename }}.webm" type="video/webm">
+    {% endif %}
+    {% if video.has_mp4 %}
+      <source src="{{ MEDIA_URL }}videos/{{ video.filename }}.mp4" type="video/mp4">
+    {% endif %}
+      Your browser does not support the <code>video</code> element.
+    </video>
   </div>
-            <div class="btn-group">
-              <a class="btn btn-mini" href="{% url 'play' filename=video.filename %}">Play</a>
-              <a class="btn btn-mini" href="{% url 'convert' video_id=video.id %}">Convert</a>
-              <a class="btn btn-mini" href="{% url 'delete' video_id=video.id %}">Delete</a>
-            </div>
+  <div class="btn-group">
+    <a class="btn btn-mini" href="{% url 'convert' video_id=video.id %}">Convert</a>
+    <a class="btn btn-mini" href="{% url 'delete' video_id=video.id %}">Delete</a>
+  </div>
 {% endblock %}
 
 {% block javascript %}
 <script type="text/javascript" src="{{ STATIC_URL }}mediaelement/mediaelement-and-player.js"></script>
 <script type="text/javascript" charset="utf-8">
   $('video').mediaelementplayer({
-    // if the <video width> is not specified, this is the default
     defaultVideoWidth: 720,
-    // if the <video height> is not specified, this is the default
     defaultVideoHeight: 480,
-    // if set, overrides <video width>
     videoWidth: -1,
-    // if set, overrides <video height>
     videoHeight: -1,
-    // width of audio player
     audioWidth: 400,
-    // height of audio player
     audioHeight: 30,
-    // initial volume when the player starts
     startVolume: 0.8,
-    // useful for <audio> player loops
     loop: false,
-    // enables Flash and Silverlight to resize to content size
     enableAutosize: true,
-    // the order of controls you want on the control bar (and other plugins below)
     features: ['playpause','progress','current','duration','tracks','volume','fullscreen'],
-    // Hide controls when playing and mouse is not over the video
     alwaysShowControls: false,
-    // force iPad's native controls
     iPadUseNativeControls: false,
-    // force iPhone's native controls
     iPhoneUseNativeControls: false,
-    // force Android's native controls
     AndroidUseNativeControls: true,
-    // forces the hour marker (##:00:00)
     alwaysShowHours: false,
-    // show framecount in timecode (##:00:00:00)
     showTimecodeFrameCount: false,
-    // used when showTimecodeFrameCount is set to true
     framesPerSecond: 25,
-    // turns keyboard support on and off for this instance
     enableKeyboard: true,
-    // when this player starts, it will pause other players
     pauseOtherPlayers: true,
-    // array of keyboard commands
     keyActions: [],
     error: function () {
       alert("Error while loading video");

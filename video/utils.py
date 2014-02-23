@@ -47,7 +47,10 @@ class VideoDownloader(object):
 
     def _download_monitor(self, piece, block_size, total_size):
         bytes_downloaded = piece * block_size
-        progress = bytes_downloaded / (total_size * 1.0)
+        if total_size:
+            progress = bytes_downloaded / (total_size * 1.0)
+        else:
+            progress = 0
         #print "%d / %d " % (bytes_downloaded, total_size)
         if piece % 100 == 0:
             self.video.progress = progress * 100
