@@ -1,9 +1,21 @@
 import os
 import uuid
 import urllib
+from urlparse import urlparse
 import subprocess
 from django.conf import settings
 from video.models import Video
+
+
+def sanitize_url(url):
+    """ Make sure an url is valid, prepending the scheme if needed. """
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        url = "http://" + url
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        raise ValueError("Invalid url %s" % url)
+    return url
 
 
 def download_thumbnail(thumbnail_url):
