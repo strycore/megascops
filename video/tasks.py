@@ -28,6 +28,8 @@ def fetch_video(video_id):
     video.state = "FETCHING_INFO"
     video.save()
     quvi = Quvi(video.page_url)
+    if not quvi.title:
+        raise ValueError("No title for this video")
     video.page_title = quvi.title
     video.host = quvi.host
 

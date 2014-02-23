@@ -35,6 +35,9 @@ deps-build:
 deps-npm:
 	sudo npm install coffee-script -g
 	sudo npm install less -g
+	sudo npm install grunt-cli -g
+	npm install
+	bower install
 
 deps-all: deps-system deps-build deps deps-npm
 
