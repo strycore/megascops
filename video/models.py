@@ -32,14 +32,13 @@ class Video(models.Model):
         return "%s" % (self.title or self.page_url or self.id)
 
     def has_file_format(self, file_format):
-        return os.path.exists(os.path.join(
-            settings.MEDIA_ROOT, "videos", self.filename + "." + file_format
-        ))
+        return os.path.exists(os.path.join(settings.MEDIA_ROOT,
+                                           self.get_path()))
 
     @property
-    def has_webm(self):
-        return self.has_file_format("webm")
+    def mimetype(self):
+        return 'video/%s' % self.extension
 
     @property
-    def has_mp4(self):
-        return self.has_file_format("mp4")
+    def path(self):
+        return 'videos/%d-%s.%s' % (self.id, self.filename, self.extension)
