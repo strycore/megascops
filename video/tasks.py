@@ -9,7 +9,7 @@ from django.conf import settings
 
 from .models import Video
 from .quvi import Quvi
-from .utils import download_thumbnail, CeleryDownloader, encode_videos
+from .utils import download_thumbnail, celery_download, encode_videos
 
 LOGGER = logging.getLogger(__name__)
 
@@ -26,12 +26,10 @@ def fetch_video(quvi_dump, video_id):
     if quvi.thumbnail_url:
         video.thumbnail = download_thumbnail(quvi.thumbnail_url)
 
-    dest_file = "%s.%s" % (video.filename, quvi.stream.extension)
-    dest_path = os.path.join(settings.MEDIA_ROOT, 'videos/', dest_file)
-    current_task.update_state(state='STARTED')
-    downloader = CeleryDownloader(current_task)
-    downloader.download(quvi.stream.url, dest_path)
-    current_task.update_state(state='FINISHED')
+    dest_path = os.path.join(settings.MEDIA_ROOT, video.path)
+    celery_download(quvi.stream.url, dest_path, current_task)
+    video.state = "READY"
+    video.save()
 
 
 @task

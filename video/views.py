@@ -19,7 +19,7 @@ from .tasks import fetch_video, encode_task
 
 def index(request):
     """Homepage"""
-    videos = Video.objects.ready().filter(private=False)
+    videos = Video.objects.filter(private=False, state="READY")
     return render(request, 'index.html', {'videos': videos})
 
 

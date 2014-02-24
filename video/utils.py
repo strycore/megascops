@@ -1,10 +1,12 @@
 import os
 import uuid
-import urllib
+import logging
+import requests
 from urlparse import urlparse
 import subprocess
 from django.conf import settings
-from video.models import Video
+
+LOGGER = logging.getLogger(__name__)
 
 
 def sanitize_url(url):
@@ -20,10 +22,12 @@ def sanitize_url(url):
 
 def download_thumbnail(thumbnail_url):
     destination_path = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
-    thumbnail_file = str(uuid.uuid4()) + ".jpg"
-    urllib.urlretrieve(thumbnail_url, os.path.join(destination_path,
-                                                   thumbnail_file))
-    thumb_rel_path = os.path.join('thumbnails', thumbnail_file)
+    thumbnail_filename = str(uuid.uuid4()) + ".jpg"
+    response = requests.get(thumbnail_url)
+    thumbnail_path = os.path.join(destination_path, thumbnail_filename)
+    with open(thumbnail_path, 'w') as thumbnail_file:
+        thumbnail_file.write(response.content)
+    thumb_rel_path = os.path.join('thumbnails', thumbnail_filename)
     return thumb_rel_path
 
 
@@ -51,21 +55,26 @@ def launch_encoder(input_file, output_file, codec="", options=""):
     subprocess.Popen(cmd % params, shell=True).communicate()
 
 
-# pylint: disable=R0903
-class CeleryDownloader(object):
+def celery_download(url, dest_path, caller):
     """ Download a file and report progress to a Celery task. """
-    def __init__(self, caller):
-        self.caller = caller
-
-    def monitor_progress(self, piece, block_size, total_size):
-        bytes_downloaded = piece * block_size
-        if total_size:
-            progress = bytes_downloaded / (total_size * 1.0)
-        else:
-            progress = 0
-        percent = int(progress * 100)
-        self.caller.update_state(state='PROGRESS',
-                                 meta={'percent': percent})
-
-    def download(self, url, dest_path):
-        urllib.urlretrieve(url, dest_path, self.monitor_progress)
+    headers = {
+        'User-agent': 'Mozilla/5.0 '
+                      '(X11; Ubuntu; Linux x86_64; rv:27.0) '
+                      'Gecko/20100101 Firefox/27.0'
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code > 400:
+        LOGGER.warning("Unable to get valid response for %s (status %s)",
+                       url, response.status_code)
+        return
+    total_size = int(response.headers['Content-Length'])
+    bytes_downloaded = 0.0
+    with open(dest_path, 'wb') as dest_file:
+        chunk_size = 1024
+        for buf in response.iter_content(chunk_size):
+            if buf:
+                dest_file.write(buf)
+                bytes_downloaded += chunk_size
+                percent = int((bytes_downloaded / (total_size)) * 100)
+                caller.update_state(state='PROGRESS',
+                                    meta={'percent': percent})
