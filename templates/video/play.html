@@ -10,8 +10,8 @@
     </video>
   </div>
   <div class="btn-group">
-    <a class="btn btn-mini" href="{% url 'convert' video_id=video.id %}">Convert</a>
-    <a class="btn btn-mini" href="{% url 'delete' video_id=video.id %}">Delete</a>
+    <a class="btn btn-sm btn-info" href="{{ MEDIA_URL }}{{ video.path }}">Download</a>
+    <a class="btn btn-sm btn-info" target="_blank" href="{{ video.page_url }}">View original</a>
   </div>
 {% endblock %}
 
