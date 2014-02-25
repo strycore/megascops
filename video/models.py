@@ -1,4 +1,3 @@
-import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -30,10 +29,6 @@ class Video(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.title or self.page_url or self.id)
-
-    def has_file_format(self, file_format):
-        return os.path.exists(os.path.join(settings.MEDIA_ROOT,
-                                           self.get_path()))
 
     @property
     def mimetype(self):

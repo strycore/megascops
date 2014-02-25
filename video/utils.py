@@ -75,6 +75,6 @@ def celery_download(url, dest_path, caller):
             if buf:
                 dest_file.write(buf)
                 bytes_downloaded += chunk_size
-                percent = int((bytes_downloaded / (total_size)) * 100)
+                percent = int((bytes_downloaded / total_size) * 100)
                 caller.update_state(state='PROGRESS',
                                     meta={'percent': percent})

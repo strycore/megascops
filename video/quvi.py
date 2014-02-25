@@ -30,7 +30,8 @@ class Quvi(object):
     def __repr__(self):
         return "<Quvi url=%s type=%s>" % (self.url, self.dump_type)
 
-    def quvi_run(self, options):
+    @staticmethod
+    def quvi_run(options):
         command = ['quvi', 'dump', '-p', 'json'] + options
         output = subprocess.Popen(command,
                                   stdout=subprocess.PIPE).communicate()[0]
