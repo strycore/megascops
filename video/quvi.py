@@ -1,3 +1,4 @@
+import os
 import json
 import logging
 from urlparse import urlparse
@@ -123,6 +124,14 @@ class QuviStream(object):
             ext = self.stream['QUVI_HTTP_METAINFO_PROPERTY_FILE_EXTENSION']
         except KeyError:
             ext = self.stream['QUVI_MEDIA_STREAM_PROPERTY_CONTAINER']
+        if not ext:
+            _base, ext = os.path.splitext(self.url)
+            if ext.lower() in ('.mp4', '.webm', '.ogv', '.ogg', '.flv',
+                               '.avi', '.mpg', '.mpeg'):
+                return ext[1:]
+            else:
+                LOGGER.error('Unknown extension %s in %s', ext, self.url)
+                ext = ''
         return ext
 
     @property
