@@ -23,8 +23,13 @@ deps:
 	pip install -r config/requirements.pip
 
 deps-system:
-	sudo apt-get install -y rabbitmq-server liblua5.1-socket2 lua-expat \
+	sudo apt-get install -y rabbitmq-server \
+		lua-expat \
 		postgresql libpq-dev lua-json rtmpdump
+	# On Ubuntu 14.04 install:
+	sudo apt-get install -y lua-socket
+	# on earlier version install
+	sudo apt-get install -y liblua5.1-socket2 
 
 deps-build:
 	sudo apt-get install -y libtool libcurl4-gnutls-dev liblua5.1-0-dev \
