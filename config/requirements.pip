@@ -12,3 +12,4 @@ coverage
 nose-exclude
 nosexcover
 django-allauth
+gunicorn
