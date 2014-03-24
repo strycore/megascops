@@ -26,10 +26,7 @@ site.addsitedir(abspath(SITE_PACKAGES))
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.append(join(PROJECT_ROOT, PROJECT))
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "megascops.settings")
-
-import djcelery
-djcelery.setup_loader()
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "megascops.settings.local")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
