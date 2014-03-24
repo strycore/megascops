@@ -1,7 +1,6 @@
-Django
+Django>=1.6
 South
-celery
-django-celery
+Celery>=3.1
 psycopg2
 sorl-thumbnail
 ipython
