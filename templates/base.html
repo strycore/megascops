@@ -1,8 +1,9 @@
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset=utf-8>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Megascops</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Megascops, Open source video platform">
@@ -11,7 +12,7 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/megascops.css" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/megascops.css' %}" type="text/css">
     <style type="text/css" media="screen">
       body {
         padding-top: 50px;

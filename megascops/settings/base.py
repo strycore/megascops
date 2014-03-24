@@ -6,6 +6,7 @@ from os.path import join, abspath, dirname
 PROJECT_ROOT = abspath(dirname(dirname(dirname(__file__))))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+ALLOWED_HOSTS = ('*', )
 ADMINS = (
     ('Mathieu Comandon', 'strider@strycore.com'),
 )
@@ -63,6 +64,9 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+STATICFILES_STORAGE = (
+    'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 )
 
 ## Templates
