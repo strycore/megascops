@@ -1,10 +1,11 @@
 #!/bin/bash
 
 NAME="megascops"
-DJANGODIR=/srv/megascops/project_name
-SOCKFILE=/srv/megascops/run/gunicorn.sock
-USER=django
-GROUP=django
+ROOT=/srv/megascops.org
+DJANGODIR=$ROOT/project_name
+SOCKFILE=$ROOT/run/gunicorn.sock
+USER=strider
+GROUP=strider
 NUM_WORKERS=9
 DJANGO_SETTINGS_MODULE=megascops.settings.production
 DJANGO_WSGI_MODULE=megascops.wsgi
@@ -26,4 +27,3 @@ exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
     --user=$USER --group=$GROUP \
     --log-level=debug \
     --bind=unix:$SOCKFILE
-

@@ -17,7 +17,7 @@ RSYNC_EXCLUDE = (
     'megascops.log'
 )
 
-env.home = "/srv/django"
+env.home = "/srv/"
 env.project = "megascops"
 
 
@@ -27,15 +27,19 @@ def _setup_path():
 
 
 def staging():
-    env.user = 'django'
+    env.user = 'strider'
     env.environment = 'staging'
-    env.domain = "megascops.strycore.com"
+    env.domain = "beta.megascops.org"
     env.hosts = [env.domain]
     _setup_path()
 
 
 def production():
-    utils.abort("No production server defined")
+    env.user = 'strider'
+    env.environment = 'production'
+    env.domain = "megascops.org"
+    env.hosts = [env.domain]
+    _setup_path()
 
 
 def activate():
