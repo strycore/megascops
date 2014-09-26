@@ -113,15 +113,15 @@ LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGIN_ERROR_URL = "/accounts/login/error/"
 
-## Email
+# Email
 EMAIL_SUBJECT_PREFIX = "[Megascops]"
 DEFAULT_FROM_EMAIL = "strider@strycore.com"
 
 
-## Celery
+# Celery
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
-## Logging
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -171,9 +171,9 @@ LOGGING = {
     }
 }
 
-## Testing
+# Testing
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-## Megascops
+# Megascops
 DEFAULT_SIZE_QUOTA = 52428800
 DEFAULT_VIDEO_QUOTA = 5
