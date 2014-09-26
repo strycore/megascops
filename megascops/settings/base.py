@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from os.path import join, abspath, dirname
 
-## Project
+# Project
 PROJECT_ROOT = abspath(dirname(dirname(dirname(__file__))))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -16,7 +16,7 @@ ROOT_URLCONF = 'megascops.urls'
 WSGI_APPLICATION = 'megascops.wsgi.application'
 SECRET_KEY = 'q-vep-mg6!hcrcgp=8-5ngu)!bs2limcdt1w(vvt=qup%0anak'
 
-## Databases
+# Databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -27,7 +27,7 @@ DATABASES = {
     }
 }
 
-## Apps
+# Apps
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,11 +49,11 @@ INSTALLED_APPS = (
     'video',
 )
 
-## Localization
+# Localization
 TIME_ZONE = 'Europe/Paris'
 LANGUAGE_CODE = 'en-us'
 
-## Static files
+# Static files
 MEDIA_ROOT = join(PROJECT_ROOT, "media")
 MEDIA_URL = "/media/"
 STATIC_ROOT = join(PROJECT_ROOT, 'static')
@@ -65,11 +65,8 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-STATICFILES_STORAGE = (
-    'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
-)
 
-## Templates
+# Templates
 TEMPLATE_DIRS = (join(PROJECT_ROOT, 'templates'),)
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
