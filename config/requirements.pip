@@ -13,3 +13,4 @@ nose-exclude
 nosexcover==1.0.10
 django-allauth
 gunicorn
+Fabric
