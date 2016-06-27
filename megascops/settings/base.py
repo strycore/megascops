@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'django_nose',
     'south',
     'sorl.thumbnail',
     'allauth',
@@ -170,9 +169,6 @@ LOGGING = {
         },
     }
 }
-
-# Testing
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Megascops
 DEFAULT_SIZE_QUOTA = 52428800
