@@ -5,7 +5,6 @@ from os.path import join, abspath, dirname
 # Project
 PROJECT_ROOT = abspath(dirname(dirname(dirname(__file__))))
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = ('*', )
 ADMINS = (
     ('Mathieu Comandon', 'strider@strycore.com'),
@@ -64,22 +63,27 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-# Templates
-TEMPLATE_DIRS = (join(PROJECT_ROOT, 'templates'),)
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-)
+TEMPLATES = [
+    {
+        'DIRS': (join(PROJECT_ROOT, 'templates'),),
+        'LOADERS': (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ),
+        'OPTIONS': {
+            'context_processors': [
+                'django.core.context_processors.debug',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.media',
+                'django.core.context_processors.static',
+                'django.core.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            'debug': True
+        },
+    }
+]
 
 
 # Middleware
