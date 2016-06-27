@@ -28,8 +28,6 @@ deps-system:
 		postgresql libpq-dev lua-json rtmpdump
 	# On Ubuntu 14.04 install:
 	sudo apt-get install -y lua-socket
-	# on earlier version install
-	sudo apt-get install -y liblua5.1-socket2 
 
 deps-build:
 	sudo apt-get install -y libtool libcurl4-gnutls-dev liblua5.1-0-dev \
