@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'south',
     'sorl.thumbnail',
     'allauth',
     'allauth.account',
