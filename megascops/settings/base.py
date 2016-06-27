@@ -66,12 +66,7 @@ STATICFILES_FINDERS = (
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
         'DIRS': (join(PROJECT_ROOT, 'templates'),),
-        'LOADERS': (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        ),
         'OPTIONS': {
             'context_processors': [
                 'django.core.context_processors.debug',
@@ -81,6 +76,10 @@ TEMPLATES = [
                 'django.core.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
             ],
             'debug': True
         },
