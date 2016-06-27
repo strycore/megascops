@@ -27,7 +27,7 @@ DATABASES = {
 }
 
 # Apps
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,9 +42,13 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+]
 
-    'video',
-)
+PROJECT_APPS = [
+    'video'
+]
+
+INSTALLED_APPS += PROJECT_APPS
 
 # Localization
 TIME_ZONE = 'Europe/Paris'

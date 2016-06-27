@@ -5,9 +5,7 @@ media
 static
 tags
 megascops.log
-.coverage
-coverage.xml
-nosetests.xml
+reports
 node_modules
 components
 public
